@@ -1,0 +1,15 @@
+# Plugin is inspirated by ElixirHCF's JoinUI
+# Plugin is recreated by Kygekraqmak
+
+# Use "\n" to make a new line
+# Use "§" to give colors to texts
+
+# Changing the title of KygekJoinUI
+title: "KygekJoinUI"
+
+# Changing the content of KygekJoinUI
+content: "Change in config.yml"
+
+# Changing the button on KygekJoinUI
+button: "Start"
+...
