@@ -15,7 +15,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 name: KygekJoinUI
-main: Kygekraqmak\Main
+main: Kygekraqmak\KygekJoinUI\Main
 api: [3.0.0, 4.0.0]
 version: 1.0.0
 author: Kygekraqmak
