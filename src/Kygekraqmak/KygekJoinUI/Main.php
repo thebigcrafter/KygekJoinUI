@@ -40,8 +40,8 @@ class Main extends PluginBase implements Listener{
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 	$api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
         if (!$api) {
-            $this->getLogger()->error(TextFormat::RED.("[ERROR] KygekJoinUI cannot be enabled because FormAPI plugin cannot be found."));
-	    $this->getLogger()->error(TextFormat::RED.("Please install FormAPI plugin first at https://poggit.pmmp.io/p/FormAPI."));
+            $this->getLogger()->error(C::RED.("[ERROR] KygekJoinUI cannot be enabled because FormAPI plugin cannot be found."));
+	    $this->getLogger()->error(C::RED.("Please install FormAPI plugin first at https://poggit.pmmp.io/p/FormAPI."));
             return;
         }
 	@mkdir($this->getDataFolder());
