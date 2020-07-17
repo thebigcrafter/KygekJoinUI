@@ -19,39 +19,41 @@
 namespace Kygekraqmak\KygekJoinUI;
 
 use pocketmine\event\player\PlayerJoinEvent;
-
 use pocketmine\Server;
 use pocketmine\Player;
-
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
-use pocketmine\plugin\Plugin::createSimpleForm();
-
 use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat as C;
-
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\command\CommandExecutor;
 use pocketmine\command\ConsoleCommandSender;
-
 use pocketmine\utils\Config;
+
 use jojoe77777\FormAPI;
 use jojoe77777\FormAPI\SimpleForm;
 
 class Main extends PluginBase implements Listener{
 	
-	public function onEnable(){
-		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		@mkdir($this->getDataFolder());
-		$this->saveResource("config.yml");
-		}
+    public function onEnable(){
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
+	$api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
+        if (!$api) {
+            $this->getLogger()->error(TextFormat::RED.("[ERROR] KygekJoinUI cannot be enabled because FormAPI plugin cannot be found."));
+	    $this->getLogger()->error(TextFormat::RED.("Please install FormAPI plugin first at https://poggit.pmmp.io/p/FormAPI."));
+            return;
+        }
+	@mkdir($this->getDataFolder());
+	$this->saveResource("config.yml");
+    }
 		
-	public function onJoin(PlayerJoinEvent $event){
-		$player = $event->getPlayer();
-    $this->openMyForm($player);
-		}
-    public function openMyForm($player){ 
+    public function onJoin(PlayerJoinEvent $event){
+	$player = $event->getPlayer();
+        $this->kygekJoinUI($player);
+    }
+
+    public function kygekJoinUI($player){ 
         $api = $this->getServer()->getPluginManager()->getPlugin("FormAPI");
         $form = $api->createSimpleForm(function (Player $player, int $data = null){
             $result = $data;
@@ -62,13 +64,11 @@ class Main extends PluginBase implements Listener{
                 case 0:
                 break;
             }
-            
-            
-            });
-            $form->setTitle($this->getConfig()->get("title"));
-            $form->setContent($this->getConfig()->get("content"));
-            $form->addButton($this->getConfig()->get("button"));
-            $form->sendToPlayer($player);                  
-            return $form;                                            
-				}
-	}
+        });
+        $form->setTitle($this->getConfig()->get("title"));
+        $form->setContent($this->getConfig()->get("content"));
+        $form->addButton($this->getConfig()->get("button"));
+        $form->sendToPlayer($player);
+        return $form;
+     }
+}
