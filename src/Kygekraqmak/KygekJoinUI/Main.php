@@ -23,7 +23,6 @@ use pocketmine\Server;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
-use pocketmine\plugin\Plugin::createSimpleForm();
 use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat as C;
 use pocketmine\command\Command;
