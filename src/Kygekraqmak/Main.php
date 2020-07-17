@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-namespace Kygekraqmak;
+namespace Kygekraqmak\KygekJoinUI;
 
 use pocketmine\event\player\PlayerJoinEvent;
 
@@ -42,7 +42,6 @@ class Main extends PluginBase implements Listener{
 	
 	public function onEnable(){
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
-		$this->getLogger()->Info(C::GREEN. "KygekJoinUI by Kygekraqmak | Plugin Enabled!");
 		@mkdir($this->getDataFolder());
 		$this->saveResource("config.yml");
 		}
