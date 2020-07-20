@@ -8,5 +8,7 @@ title: "KygekJoinUI"
 content: "Change in config.yml"
 
 # Changing the button on KygekJoinUI
-button: "Start"
+buttons:
+- "bruh test"
+- "test 2"
 ...
