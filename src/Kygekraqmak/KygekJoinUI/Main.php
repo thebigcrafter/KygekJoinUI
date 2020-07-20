@@ -33,6 +33,7 @@ use pocketmine\utils\Config;
 
 use jojoe77777\FormAPI;
 use jojoe77777\FormAPI\SimpleForm;
+use jojoe77777\FormAPI\ModalForm;
 
 class Main extends PluginBase implements Listener{
 	
@@ -40,14 +41,39 @@ class Main extends PluginBase implements Listener{
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 	@mkdir($this->getDataFolder());
 	$this->saveResource("config.yml");
+	if (!$this->getConfig()->exists("config-version")){
+	    $this->getLogger()->notice("§4[ERROR] Your configuration file is outdated, updating the config.yml...");
+	    unlink($this->getDataFolder()."config.yml");
+	    $this->getConfig()->load($this->getDataFolder()."config.yml");
+	    return;
+	}
+	if(version_compare("1.1", $this->getConfig()->get("config-version"))){
+            $this->getLogger()->notice("§4[ERROR] Your configuration file is outdated, updating the config.yml...");
+	    unlink($this->getDataFolder()."config.yml");
+	    $this->getConfig()->load($this->getDataFolder()."config.yml");
+	    return;
+	}
+	if ($this->getConfig()->get("Mode") == "SimpleForm"){
+        }elseif ($this->getConfig()->get("Mode") == "ModalForm"){
+        }
+	else{
+	    $this->getLogger()->error(TextFormat::RED.("Please set the correct mode in the config.yml, changing the mode to SimpleForm..."));
+	    $this->getConfig()->set("Mode", "SimpleForm");
+	    $this->getConfig()->save();
+	}
     }
 		
     public function onJoin(PlayerJoinEvent $event){
 	$player = $event->getPlayer();
-        $this->kygekJoinUI($player);
+        if($this->getConfig()->get("Mode") == "SimpleForm"){
+       	    $this->kygekSimpleJoinUI($player);
+	}
+	if($this->getConfig()->get("Mode") == "ModalForm"){
+       	    $this->kygekModalJoinUI($player);
+	}
     }
 
-    public function kygekJoinUI($player){ 
+    public function kygekSimpleJoinUI($player){ 
         $form = new SimpleForm(function (Player $player, int $data = null){
             $result = $data;
             if($result === null){
@@ -63,5 +89,9 @@ class Main extends PluginBase implements Listener{
         $form->addButton($this->getConfig()->get("button"));
         $form->sendToPlayer($player);
         return $form;
+     }
+     
+     private function kygekModalJoinUI($player){ 
+        $form = new ModalForm(function (Player $player, bool $data = null
      }
 }
