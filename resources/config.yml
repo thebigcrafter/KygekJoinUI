@@ -1,5 +1,5 @@
 ---
-config-version: 1
+config-version: 1.0.0
 Mode: SimpleForm
 title: KygekJoinUI
 content: Change in config.yml
