@@ -35,12 +35,11 @@ use jojoe77777\FormAPI;
 use jojoe77777\FormAPI\SimpleForm;
 
 class Main extends PluginBase implements Listener{
+    public $cfg;
 	
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-	@mkdir($this->getDataFolder());
-	$this->saveResource("config.yml");
-    }
+	$this->cfg = $this->getConfig();
 		
     public function onJoin(PlayerJoinEvent $event){
 	$player = $event->getPlayer();
@@ -60,7 +59,10 @@ class Main extends PluginBase implements Listener{
         });
         $form->setTitle($this->getConfig()->get("title"));
         $form->setContent($this->getConfig()->get("content"));
-        $form->addButton($this->getConfig()->get("button"));
+        $buttons = $this->cfg->get("buttons");
+		foreach ($button as $buttons) {
+		$form->addButton($botton);
+		}
         $form->sendToPlayer($player);
         return $form;
      }
