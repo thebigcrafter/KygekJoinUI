@@ -45,15 +45,15 @@ class Main extends PluginBase implements Listener{
             return;
 		}
 		if (!$this->getConfig()->exists("config-version")){
-			$this->getLogger()->notice("§4[ERROR] §cYour configuration file is outdated updating the Config...");
-			unlink($this->getDataFolder()."config.yml");
-			$this->getConfig()->load($this->getDataFolder()."config.yml");
+			$this->getLogger()->notice("§4[ERROR] §cYour configuration file is from another version. Updating the Config...");
+			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
+			$this->saveResource("config.yml");
 			return;
 		}
-		if($this->getConfig()->get("config-version") !== 1){
-            $this->getLogger()->notice("§4[ERROR] §cYour configuration file is outdated updating the Config...");
-			unlink($this->getDataFolder()."config.yml");
-			$this->getConfig()->load($this->getDataFolder()."config.yml");
+		if(version_compare("1.0.0", $this->getConfig()->get("config-version"))){
+            $this->getLogger()->notice("§4[ERROR] §cYour configuration file is from another version. Updating the Config...");
+			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
+			$this->saveResource("config.yml");
 			return;
         }
 		if ($this->getConfig()->get("Mode") == "SimpleForm"){
@@ -86,19 +86,20 @@ class Main extends PluginBase implements Listener{
             }
 	        $Buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
 			$command = explode(":", $Buttons[$data]);
-	        if (count($command) >= 3){
-		        //sorry bad english Change it please idk what should i write in the error
-		        $this->getLogger()->error(TextFormat::RED.("[ERROR] KygekJoinUI cannot be enabled because there are too many arguments in the command part in the config.yml."));
-		        Server::getInstance()->getPluginManager()->disablePlugin($this);
-		        return;
-	        }
 	        if (count($command) <= 1){
 	    	    return;
 	        }
             if ($command[1] == null){
 	    	    return;
+			}
+			$first = true;
+			foreach($command as $cmd){
+				if ($first){
+					$first = false;
+				}else{
+					$this->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
+				}
 	        }
-	        $this->getServer()->dispatchCommand(new ConsoleCommandSender(), $command[1]);
         });
         $form->setTitle($this->getConfig()->get("title"));
 	    $world = str_replace("{World}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
