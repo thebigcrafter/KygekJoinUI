@@ -1,17 +1,46 @@
 ---
-config-version: 1.0.0
+# Config of KygekJoinUI plugin
+# KygekJoinUI plugin by Kygekraqmak and aminozomty
+# If your config.yml data is lost it may be in config_old.yml
+
+
+# Use "\n" to make a new line
+# Use "&" as formatting codes for texts
+# Use "{player_name}" to display the player's name
+# Use "{online}" to display the current players on the server
+# Use "{max_online}" to display the server's maximum players
+
+
+# How to set up:
+# config-version: 1.1               = Config.yml version (Don't change!)
+# Mode: SimpleForm                  = Change the KygekJoinUI mode (SimpleForm or ModalForm)
+# title: KygekJoinUI                = Change the title of KygekJoinUI
+# content: Change in config.yml!    = Change the content of KygekJoinUI
+# Buttons:                          = The button(s) of KygekJoinUI (SimpleForm or ModalForm)
+#   SimpleForm:                     = Button(s) that will show if you choose SimpleForm mode
+#   - Ok:say Hello!                 = Change the button of SimpleForm mode of KygekJoinUI (use button_name:command1:command2:... to execute commands when the button is pressed)
+#   ModalForm:                      = Button(s) that will show if you choose ModalForm mode (only supports 2 buttons!)
+#     B1:                           = First button of ModalForm mode (Don't change!)
+#       name: Button1               = Change the button of the first ModalForm button
+#       command: say Button1!       = Change the command that will be executed when the first button is pressed
+#     B2:                           = Second button of ModalForm mode (Don't change!)
+#       name: Button2               = Change the button of the second ModalForm button
+#       command: say Button2!       = Change the command that will be executed when the second button is pressed
+
+
+# Set the plugin here!
+config-version: 1.1
 Mode: SimpleForm
 title: KygekJoinUI
-content: Change in config.yml
+content: Change in config.yml!
 Buttons:
   SimpleForm:
-  - ok
-  - Hi:say hi
+  - Ok:say Hello!
   ModalForm:
     B1:
-      name: world
-      command: say hello World!
+      name: Button1
+      command: say Button1!
     B2:
-      name: player
-      command: say hello {player}
+      name: Button2
+      command: say Button2!
 ...
