@@ -1,12 +1,17 @@
-# Use "\n" to make a new line
-# Use "§" to give colors to texts
-
-# Changing the title of KygekJoinUI
-title: "KygekJoinUI"
-
-# Changing the content of KygekJoinUI
-content: "Change in config.yml"
-
-# Changing the button on KygekJoinUI
-button: "Start"
+---
+config-version: 1.0.0
+Mode: SimpleForm
+title: KygekJoinUI
+content: Change in config.yml
+Buttons:
+  SimpleForm:
+  - ok
+  - Hi:say hi
+  ModalForm:
+    B1:
+      name: world
+      command: say hello World!
+    B2:
+      name: player
+      command: say hello {player}
 ...
