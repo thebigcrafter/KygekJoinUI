@@ -90,24 +90,24 @@ class Main extends PluginBase implements Listener{
         });
         $form->setTitle($this->getConfig()->get("title"));
 	    $world = str_replace("{World}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
-	    $playern = str_replace("{player}", $player->getName(), $world);
+		$playern = str_replace("{player}", $player->getName(), $world);
+		$players = [];
 	    foreach($player->getLevel()->getEntities() as $entity){
 	        if($entity instanceof Player){
-	    	    $players = [];
-		    $players[] = $entity;
+		    	$players[] = $entity;
 	        }
 	    }
 	    $worldcount = str_replace("{worldplayercount}", count($players), $playern);
 	    $onlineplayers = str_replace("{onlineplayers}", count($this->getServer()->getOnlinePlayers()), $playern);
 	    $content = str_replace("{line}", "\n", $onlineplayers);
-        $form->setContent($content);
+		$form->setContent($content);
+		$players = [];
 	    foreach($this->getConfig()->getNested("Buttons.SimpleForm") as $b){
 			$text = explode(":", $b);
 	        $world = str_replace("{World}", $player->getLevel()->getName(), $text[0]);
 	        $playern = str_replace("{player}", $player->getName(), $world);
 	        foreach($player->getLevel()->getEntities() as $entity){
 	            if($entity instanceof Player){
-	    	        $players = [];
 		            $players[] = $entity;
 	            }
 	        }
@@ -120,7 +120,7 @@ class Main extends PluginBase implements Listener{
         return $form;
     }
     private function kygekModalJoinUI($player){ 
-        $form = new ModalForm(function (Player $player, bool $data){
+        $form = new ModalForm(function (Player $player, bool $data = null){
             if($data === null){
                 return true;
             }             
@@ -142,9 +142,9 @@ class Main extends PluginBase implements Listener{
         $form->setTitle($this->getConfig()->get("title"));
 		$world = str_replace("{World}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
 		$playern = str_replace("{player}", $player->getName(), $world);
+		$players = [];
 		foreach($player->getLevel()->getEntities() as $entity){
 		    if($entity instanceof Player){
-	    		$players = [];
 				$players[] = $entity;
 		    }
 		}
