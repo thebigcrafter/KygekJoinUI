@@ -6,7 +6,6 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 
 * Simple Form and Modal Form mode
 * Easy to setup (plugin can be edited in config.yml)
-* Uses & instead of § as formatting codes
 * Config.yml updated automatically
 * {player_name} can be used to display the player's name
 * {online} can be used to display currently online players on the server
