@@ -43,6 +43,18 @@ class Main extends PluginBase implements Listener{
         $this->getLogger()->error(TextFormat::RED.("Please install FormAPI plugin first at https://poggit.pmmp.io/p/FormAPI."));
 	    Server::getInstance()->getPluginManager()->disablePlugin($this);
             return;
+		}
+		if (!$this->getConfig()->exists("config-version")){
+			$this->getLogger()->notice("§4[ERROR] §cYour configuration file is outdated updating the Config...");
+			unlink($this->getDataFolder()."config.yml");
+			$this->getConfig()->load($this->getDataFolder()."config.yml");
+			return;
+		}
+		if($this->getConfig()->get("config-version") !== 1){
+            $this->getLogger()->notice("§4[ERROR] §cYour configuration file is outdated updating the Config...");
+			unlink($this->getDataFolder()."config.yml");
+			$this->getConfig()->load($this->getDataFolder()."config.yml");
+			return;
         }
 		if ($this->getConfig()->get("Mode") == "SimpleForm"){
 			//u can add a something here idk
