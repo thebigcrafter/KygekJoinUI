@@ -1,5 +1,6 @@
 ---
-Mode: ModalForm
+config-version: 1
+Mode: SimpleForm
 title: KygekJoinUI
 content: Change in config.yml
 Buttons:
