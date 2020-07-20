@@ -97,36 +97,31 @@ class Main extends PluginBase implements Listener{
 				if ($first){
 					$first = false;
 				}else{
-					$this->getServer()->dispatchCommand(new ConsoleCommandSender(), $cmd);
+					$playern = str_replace("{player}", $player->getName(), $cmd);
+					$comnd = str_replace("&", "§", $playern);
+					$this->getServer()->dispatchCommand(new ConsoleCommandSender(), $comnd);
 				}
 	        }
         });
-        $form->setTitle($this->getConfig()->get("title"));
-	    $world = str_replace("{World}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
+		$world = str_replace("{world}", $player->getLevel()->getName(),$this->getConfig()->get("title"));
 		$playern = str_replace("{player}", $player->getName(), $world);
-		$players = [];
-	    foreach($player->getLevel()->getEntities() as $entity){
-	        if($entity instanceof Player){
-		    	$players[] = $entity;
-	        }
-	    }
-	    $worldcount = str_replace("{worldplayercount}", count($players), $playern);
-	    $onlineplayers = str_replace("{onlineplayers}", count($this->getServer()->getOnlinePlayers()), $playern);
-	    $content = str_replace("{line}", "\n", $onlineplayers);
+		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
+		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
+	    $title = str_replace("&", "§", $maxplayers);
+        $form->setTitle($title);
+	    $world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
+		$playern = str_replace("{player}", $player->getName(), $world);
+		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
+		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
+	    $content = str_replace("&", "§", $maxplayers);
 		$form->setContent($content);
-		$players = [];
 	    foreach($this->getConfig()->getNested("Buttons.SimpleForm") as $b){
 			$text = explode(":", $b);
-	        $world = str_replace("{World}", $player->getLevel()->getName(), $text[0]);
+	        $world = str_replace("{world}", $player->getLevel()->getName(), $text[0]);
 	        $playern = str_replace("{player}", $player->getName(), $world);
-	        foreach($player->getLevel()->getEntities() as $entity){
-	            if($entity instanceof Player){
-		            $players[] = $entity;
-	            }
-	        }
-	        $worldcount = str_replace("{worldplayercount}", count($players), $playern);
-	        $onlineplayers = str_replace("{onlineplayers}", count($this->getServer()->getOnlinePlayers()), $playern);
-			$text = str_replace("{line}", "\n", $onlineplayers);
+			$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
+			$maxplayers = str_replace("{max_online}",$this->getServer()->getMaxPlayers(), $onlineplayers);
+			$text = str_replace("&", "§", $maxplayers);
 	        $form->addButton($text);
 	    }
         $form->sendToPlayer($player);
@@ -141,32 +136,43 @@ class Main extends PluginBase implements Listener{
                 case true:
 		            $command = $this->getConfig()->getNested("Buttons.ModalForm.B1.command");
 		            if ($command !== null){
-		                $this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $command));
+						$cmd = str_replace("&", "§", $command);
+		                $this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $cmd));
 		            }
                 break;
 		        case false:
 		            $command = $this->getConfig()->getNested("Buttons.ModalForm.B2.command");
 		            if ($command !== null){
-		                $this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $command));
+						$cmd = str_replace("&", "§", $command);
+		                $this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $cmd));
 		            }
                 break;
             }
         });
-        $form->setTitle($this->getConfig()->get("title"));
-		$world = str_replace("{World}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
+        $world = str_replace("{world}", $player->getLevel()->getName(),$this->getConfig()->get("title"));
 		$playern = str_replace("{player}", $player->getName(), $world);
-		$players = [];
-		foreach($player->getLevel()->getEntities() as $entity){
-		    if($entity instanceof Player){
-				$players[] = $entity;
-		    }
-		}
-		$worldcount = str_replace("{worldplayercount}", count($players), $playern);
-		$onlineplayers = str_replace("{onlineplayers}", count($this->getServer()->getOnlinePlayers()), $playern);
-		$content = str_replace("{line}", "\n", $onlineplayers);
-    	$form->setContent($content);
-    	$form->setButton1($this->getConfig()->getNested("Buttons.ModalForm.B1.name"));
-		$form->setButton2($this->getConfig()->getNested("Buttons.ModalForm.B2.name"));
+		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
+		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
+	    $title = str_replace("&", "§", $maxplayers);
+        $form->setTitle($title);
+		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
+		$playern = str_replace("{player}", $player->getName(), $world);
+		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
+		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
+	    $content = str_replace("&", "§", $maxplayers);
+		$form->setContent($content);
+		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->getNested("Buttons.ModalForm.B1.name"));
+		$playern = str_replace("{player}", $player->getName(), $world);
+		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
+		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
+	    $B1 = str_replace("&", "§", $maxplayers);
+    	$form->setButton1($B1);
+		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->getNested("Buttons.ModalForm.B2.name"));
+		$playern = str_replace("{player}", $player->getName(), $world);
+		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
+		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
+	    $B2 = str_replace("&", "§", $maxplayers);
+		$form->setButton2($B2);
         $form->sendToPlayer($player);
         return $form;
     }
