@@ -5,7 +5,7 @@
 
 
 # Use "\n" to make a new line
-# Use "&" as formatting codes for texts
+# Use "§" as formatting codes for texts
 # Use "{player_name}" to display the player's name
 # Use "{online}" to display the current players on the server
 # Use "{max_online}" to display the server's maximum players
