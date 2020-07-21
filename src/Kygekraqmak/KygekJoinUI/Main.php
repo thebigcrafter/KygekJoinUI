@@ -101,13 +101,13 @@ class Main extends PluginBase implements Listener{
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $title = $maxplayers
+	    $title = $maxplayers;
         $form->setTitle($title);
 	    $world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $content = $maxplayers
+	    $content = $maxplayers;
 		$form->setContent($content);
 	    foreach($this->getConfig()->getNested("Buttons.SimpleForm") as $b){
 			$text = explode(":", $b);
@@ -115,7 +115,7 @@ class Main extends PluginBase implements Listener{
 	        $playern = str_replace("{player}", $player->getName(), $world);
 			$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 			$maxplayers = str_replace("{max_online}",$this->getServer()->getMaxPlayers(), $onlineplayers);
-			$text = $maxplayers
+			$text = $maxplayers;
 	        $form->addButton($text);
 	    }
         $form->sendToPlayer($player);
@@ -145,25 +145,25 @@ class Main extends PluginBase implements Listener{
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $title = $maxplayers
+	    $title = $maxplayers;
         $form->setTitle($title);
 		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $content = $maxplayers
+	    $content = $maxplayers;
 		$form->setContent($content);
 		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->getNested("Buttons.ModalForm.B1.name"));
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $B1 = $maxplayers
+	    $B1 = $maxplayers;
     	$form->setButton1($B1);
 		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->getNested("Buttons.ModalForm.B2.name"));
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $B2 = $maxplayers
+	    $B2 = $maxplayers;
 		$form->setButton2($B2);
         $form->sendToPlayer($player);
         return $form;
