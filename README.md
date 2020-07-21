@@ -29,4 +29,9 @@ If you update the plugin to 1.1.0 and above, a file called config-old.yml will b
 
 # Additional Notes
 
+KygekJoinUI is owned by Kygekraqmak.
+KygekJoinUI is developed by Kygekraqmak and aminozomty.
+
+For more information about this plugin, please visit the <a href="https://github.com/Kygekraqmak/KygekJoinUI/wiki">wiki</a>.
+
 If you found bugs while using this plugin, please report it in <a href="https://github.com/Kygekraqmak/KygekJoinUI/issues">here</a>.
