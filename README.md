@@ -8,7 +8,7 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 * Easy to setup (plugin can be edited in config.yml)
 * Config.yml updated automatically when a newer version is detected
 * Config_old.yml will be created before the config.yml gets updated
-* {player_name} can be used to display the player's name
+* {player} can be used to display the player's name
 * {online} can be used to display currently online players on the server
 * {max_online} can be used to display maximum online players on the server
 * {world_name} can be used to display the world name the KygekJoinUI shows
