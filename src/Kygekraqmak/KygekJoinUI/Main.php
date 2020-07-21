@@ -43,15 +43,15 @@ class Main extends PluginBase implements Listener{
 	$this->saveResource("config.yml");
 	if (!$this->getConfig()->exists("config-version")){
 	    $this->getLogger()->notice("§4[KygekJoinUI] Your configuration file is outdated, updating the config.yml...");
-	    unlink($this->getDataFolder()."config.yml");
-	    $this->getConfig()->load($this->getDataFolder()."config.yml");
-	    return;
+	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
+            $this->saveResource("config.yml");
+            return;
 	}
 	if(version_compare("1.1", $this->getConfig()->get("config-version"))){
             $this->getLogger()->notice("§4[KygekJoinUI] Your configuration file is outdated, updating the config.yml...");
-	    unlink($this->getDataFolder()."config.yml");
-	    $this->getConfig()->load($this->getDataFolder()."config.yml");
-	    return;
+	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
+            $this->saveResource("config.yml");
+            return;
 	}
 	if ($this->getConfig()->get("Mode") == "SimpleForm"){
         }elseif ($this->getConfig()->get("Mode") == "ModalForm"){
@@ -92,7 +92,7 @@ class Main extends PluginBase implements Listener{
 					$first = false;
 				}else{
 					$playern = str_replace("{player}", $player->getName(), $cmd);
-					$comnd = $playern
+					$comnd = $playern;
 					$this->getServer()->dispatchCommand(new ConsoleCommandSender(), $comnd);
 				}
 	        }
