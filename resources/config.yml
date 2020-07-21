@@ -1,14 +1,40 @@
+# do notttt i say do not change this unless u are editing the code in someway
+version: '1.0.1'
 # Use "\n" to make a new line
-# Use "§" to give colors to texts
-
+# Use "&" to give colors to texts
+# change the mode to the corresponding mode wanted
+mode: "Custom"
 # Changing the title of KygekJoinUI
 title: "KygekJoinUI"
-
-# Changing the content of KygekJoinUI
+#Ctitle is for the custom menu title!
+Ctitle: "JoinUI"
+# label is for the custom setting allowing for a content with the and for use with my captcha thats built in use the tag {cap}
+Label: "Please Type This Sentence Here: "
+# Changing the content of KygekJoinUI!
 content: "Change in config.yml"
 
 # Changing the button on KygekJoinUI
 buttons:
 - "bruh test"
 - "test 2"
+#buttons are unusable in the custom mode so here are the custom settings!
+# if u dont want one of these settings please put null in a string to do so
+dropdown: 'null'
+#options go with the dropdown it is an array so please use as an array!
+options:
+  - "test1"
+  - "test2"
+# input is a custom setting that will put a input in your form if u dont want a input please put "null"
+input: "Captcha"
+#number slider please put "null" to not have a slider!
+slider: "null"
+# min and max values for the slider!
+min: 1
+max: 2
+# stepslider for making an slider with steps please put "null" to remove
+stepslider: "bru"
+# steps is a stepslider option that is an array for the steps in the slider!
+steps:
+  - "one step"
+  - "second step"
 ...
