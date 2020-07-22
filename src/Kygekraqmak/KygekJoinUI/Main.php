@@ -31,9 +31,9 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\utils\Config;
 
-use Kygekraqmak\KygekJoinUI\libs\jojoe77777\FormAPI;
-use Kygekraqmak\KygekJoinUI\libs\jojoe77777\FormAPI\SimpleForm;
-use Kygekraqmak\KygekJoinUI\libs\jojoe77777\FormAPI\ModalForm;
+use jojoe77777\FormAPI;
+use jojoe77777\FormAPI\SimpleForm;
+use jojoe77777\FormAPI\ModalForm;
 
 class Main extends PluginBase implements Listener{
 	
