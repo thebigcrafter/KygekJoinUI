@@ -42,25 +42,27 @@ class Main extends PluginBase implements Listener{
 	@mkdir($this->getDataFolder());
 	$this->saveResource("config.yml");
 	if (!$this->getConfig()->exists("config-version")){
-	    $this->getLogger()->notice("§4[KygekJoinUI] Your configuration file is outdated, updating the config.yml...");
+	    $this->getLogger()->notice("§4Your configuration file is outdated, updating the config.yml...");
 	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
             $this->saveResource("config.yml");
             return;
 	}
 	if(version_compare("1.1", $this->getConfig()->get("config-version"))){
-            $this->getLogger()->notice("§4[KygekJoinUI] Your configuration file is outdated, updating the config.yml...");
+            $this->getLogger()->notice("§4Your configuration file is outdated, updating the config.yml...");
 	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
             $this->saveResource("config.yml");
             return;
 	}
-	if ($this->getConfig()->get("Mode") == "SimpleForm"){
-        }elseif ($this->getConfig()->get("Mode") == "ModalForm"){
-        }
-	else{
-	    $this->getLogger()->error(TextFormat::RED.("[KygekJoinUI] Please set the correct mode in the config.yml, changing the mode to SimpleForm..."));
-	    $this->getConfig()->set("Mode", "SimpleForm");
-	    $this->getConfig()->save();
-	}
+	if ($this->getConfig()->get("Mode") == "SimpleForm") return;
+	if ($this->getConfig()->get("Mode") == "ModalForm") return;
+	$this->getLogger()->error(TextFormat::RED.("Please set the correct mode in the config.yml, changing the mode to SimpleForm..."));
+	$content = file_get_contents($this->getDataFolder()."config.yml");
+	$yml = yaml_parse($content);
+	$config = str_replace("Mode: ".$yml["Mode"] ,"Mode: SimpleForm" ,$content);
+	unlink($this->getDataFolder()."config.yml");
+	$file = fopen($this->getDataFolder()."config.yml", "w");
+	fwrite($file, $config);
+	fclose($file);
     }
 		
     public function onJoin(PlayerJoinEvent $event){
@@ -92,7 +94,7 @@ class Main extends PluginBase implements Listener{
 					$first = false;
 				}else{
 					$playern = str_replace("{player}", $player->getName(), $cmd);
-					$comnd = $playern;
+					$comnd = str_replace("{line}", "\n", $playern);
 					$this->getServer()->dispatchCommand(new ConsoleCommandSender(), $comnd);
 				}
 	        }
@@ -101,13 +103,13 @@ class Main extends PluginBase implements Listener{
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $title = $maxplayers;
+	    $title = str_replace("{line}", "\n", $maxplayers);
         $form->setTitle($title);
 	    $world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $content = $maxplayers;
+	    $content = str_replace("{line}", "\n", $maxplayers);
 		$form->setContent($content);
 	    foreach($this->getConfig()->getNested("Buttons.SimpleForm") as $b){
 			$text = explode(":", $b);
@@ -115,7 +117,7 @@ class Main extends PluginBase implements Listener{
 	        $playern = str_replace("{player}", $player->getName(), $world);
 			$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 			$maxplayers = str_replace("{max_online}",$this->getServer()->getMaxPlayers(), $onlineplayers);
-			$text = $maxplayers;
+			$text = str_replace("{line}", "\n", $maxplayers);
 	        $form->addButton($text);
 	    }
         $form->sendToPlayer($player);
@@ -145,25 +147,25 @@ class Main extends PluginBase implements Listener{
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $title = $maxplayers;
+	    $title = str_replace("{line}", "\n", $maxplayers);
         $form->setTitle($title);
 		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $content = $maxplayers;
+	    $content = str_replace("{line}", "\n", $maxplayers);
 		$form->setContent($content);
 		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->getNested("Buttons.ModalForm.B1.name"));
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $B1 = $maxplayers;
+	    $B1 = str_replace("{line}", "\n", $maxplayers);
     	$form->setButton1($B1);
 		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->getNested("Buttons.ModalForm.B2.name"));
 		$playern = str_replace("{player}", $player->getName(), $world);
 		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
 		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $B2 = $maxplayers;
+	    $B2 = str_replace("{line}", "\n", $maxplayers);
 		$form->setButton2($B2);
         $form->sendToPlayer($player);
         return $form;
