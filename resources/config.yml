@@ -8,7 +8,7 @@
 # Use "{player}" to display the player's name
 # Use "{online}" to display the current players on the server
 # Use "{max_online}" to display the server's maximum players
-# Use "{world_name}" to display the world the KygekJoinUI shows on
+# Use "{world}" to display the world the KygekJoinUI shows on
 
 
 # How to set up:
