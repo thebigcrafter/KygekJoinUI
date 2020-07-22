@@ -31,9 +31,9 @@ use pocketmine\command\CommandExecutor;
 use pocketmine\command\ConsoleCommandSender;
 use pocketmine\utils\Config;
 
-use jojoe77777\FormAPI;
-use jojoe77777\FormAPI\SimpleForm;
-use jojoe77777\FormAPI\ModalForm;
+use Kygekraqmak\KygekJoinUI\libs\jojoe77777\FormAPI;
+use Kygekraqmak\KygekJoinUI\libs\jojoe77777\FormAPI\SimpleForm;
+use Kygekraqmak\KygekJoinUI\libs\jojoe77777\FormAPI\ModalForm;
 
 class Main extends PluginBase implements Listener{
 	
@@ -65,18 +65,12 @@ class Main extends PluginBase implements Listener{
 	    self::$mode = "ModalForm";
 	    return;
 	}
-	$this->getLogger()->error(TextFormat::RED.("Incorrect mode have been set in the config.yml, changing the mode to SimpleForm..."));
-	$content = file_get_contents($this->getDataFolder()."config.yml");
-	$yml = yaml_parse($content);
-	$config = str_replace("Mode: ".$yml["Mode"] ,"Mode: SimpleForm" ,$content);
-	unlink($this->getDataFolder()."config.yml");
-	$file = fopen($this->getDataFolder()."config.yml", "w");
-	fwrite($file, $config);
-	fclose($file);
+	$this->ConfigFix();
     }
 		
     public function onJoin(PlayerJoinEvent $event){
 	$player = $event->getPlayer();
+	$this->ConfigFix();
         if(self::$mode == "SimpleForm"){
        	    $this->kygekSimpleJoinUI($player);
 	}
@@ -133,6 +127,7 @@ class Main extends PluginBase implements Listener{
         $form->sendToPlayer($player);
         return $form;
     }
+	
     private function kygekModalJoinUI($player){ 
         $form = new ModalForm(function (Player $player, bool $data = null){
             if($data === null){
@@ -180,4 +175,26 @@ class Main extends PluginBase implements Listener{
         $form->sendToPlayer($player);
         return $form;
     }
+	
+	private function ConfigFix() {
+		$this->getConfig()->reload();
+		if ($this->getConfig()->get("Mode") == "SimpleForm") {
+			self::$mode = "SimpleForm";
+			return;
+		}
+		if ($this->getConfig()->get("Mode") == "ModalForm") {
+			self::$mode = "ModalForm";
+			return;
+		}
+		self::$mode = "SimpleForm";
+		$this->getLogger()->error(TextFormat::RED.("Incorrect mode have been set in the config.yml, changing the mode to SimpleForm..."));
+		$content = file_get_contents($this->getDataFolder()."config.yml");
+		$yml = yaml_parse($content);
+		$config = str_replace("Mode: ".$yml["Mode"] ,"Mode: SimpleForm" ,$content);
+		unlink($this->getDataFolder()."config.yml");
+		$file = fopen($this->getDataFolder()."config.yml", "w");
+		fwrite($file, $config);
+		fclose($file);
+	}
+	
 }
