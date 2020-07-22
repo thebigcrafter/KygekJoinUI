@@ -36,53 +36,46 @@ use jojoe77777\FormAPI\SimpleForm;
 use jojoe77777\FormAPI\ModalForm;
 
 class Main extends PluginBase implements Listener{
-	
-    public static $mode;
-	
+
+	public static $mode;
+
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-	@mkdir($this->getDataFolder());
-	$this->saveResource("config.yml");
-	if (!$this->getConfig()->exists("config-version")){
-	    $this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
-	    $this->getLogger()->notice("The old configuration file can be found at config_old.yml");
-	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
-            $this->saveResource("config.yml");
-            return;
+	    @mkdir($this->getDataFolder());
+		$this->saveResource("config.yml");
+	    if (!$this->getConfig()->exists("config-version")){
+			$this->getLogger()->notice("§4[ERROR] §cYour configuration file is from another version. Updating the Config...");
+			$this->getLogger()->notice("The old configuration file can be found at config_old.yml");
+			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
+			$this->saveResource("config.yml");
+			return;
+		}
+		if(version_compare("1.1", $this->getConfig()->get("config-version"))){
+            $this->getLogger()->notice("§4[ERROR] §cYour configuration file is from another version. Updating the Config...");
+			$this->getLogger()->notice("The old configuration file can be found at config_old.yml");
+			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
+			$this->saveResource("config.yml");
+			return;
+        }
+		if ($this->getConfig()->get("Mode") == "SimpleForm") {
+			self::$mode = "SimpleForm";
+			return;
+		}
+		if ($this->getConfig()->get("Mode") == "ModalForm") {
+			self::$mode = "ModalForm";
+			return;
+		}
+		$this->ConfigFix();
 	}
-	if(version_compare("1.1", $this->getConfig()->get("config-version"))){
-            $this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
-	    $this->getLogger()->notice("The old configuration file can be found at config_old.yml");
-	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
-            $this->saveResource("config.yml");
-            return;
-	}
-	if ($this->getConfig()->get("Mode") == "SimpleForm") {
-	    self::$mode = "SimpleForm";
-	    return;
-	}
-	if ($this->getConfig()->get("Mode") == "ModalForm") {
-	    self::$mode = "ModalForm";
-	    return;
-	}
-	$this->getLogger()->error(TextFormat::RED.("Incorrect mode have been set in the config.yml, changing the mode to SimpleForm..."));
-	$content = file_get_contents($this->getDataFolder()."config.yml");
-	$yml = yaml_parse($content);
-	$config = str_replace("Mode: ".$yml["Mode"] ,"Mode: SimpleForm" ,$content);
-	unlink($this->getDataFolder()."config.yml");
-	$file = fopen($this->getDataFolder()."config.yml", "w");
-	fwrite($file, $config);
-	fclose($file);
-    }
-		
     public function onJoin(PlayerJoinEvent $event){
-	$player = $event->getPlayer();
+		$player = $event->getPlayer();
+		$this->ConfigFix();
         if(self::$mode == "SimpleForm"){
        	    $this->kygekSimpleJoinUI($player);
-	}
-	if(self::$mode == "ModalForm"){
+		}
+		if(self::$mode == "ModalForm"){
        	    $this->kygekModalJoinUI($player);
-	}
+		}
     }
 
     private function kygekSimpleJoinUI($player){ 
@@ -180,4 +173,24 @@ class Main extends PluginBase implements Listener{
         $form->sendToPlayer($player);
         return $form;
     }
+	private function ConfigFix() {
+		$this->getConfig()->reload();
+		if ($this->getConfig()->get("Mode") == "SimpleForm") {
+			self::$mode = "SimpleForm";
+			return;
+		}
+		if ($this->getConfig()->get("Mode") == "ModalForm") {
+			self::$mode = "ModalForm";
+			return;
+		}
+		self::$mode = "SimpleForm";
+		$this->getLogger()->error(TextFormat::RED.("Incorrect mode have been set in the config.yml, changing the mode to SimpleForm..."));
+		$content = file_get_contents($this->getDataFolder()."config.yml");
+		$yml = yaml_parse($content);
+		$config = str_replace("Mode: ".$yml["Mode"] ,"Mode: SimpleForm" ,$content);
+		unlink($this->getDataFolder()."config.yml");
+		$file = fopen($this->getDataFolder()."config.yml", "w");
+		fwrite($file, $config);
+		fclose($file);
+	}
 }
