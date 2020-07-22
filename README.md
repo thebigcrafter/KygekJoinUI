@@ -13,7 +13,7 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 * {player} can be used to display the player's name
 * {online} can be used to display currently online players on the server
 * {max_online} can be used to display maximum online players on the server
-* {world_name} can be used to display the world name the KygekJoinUI shows
+* {world} can be used to display the world name the KygekJoinUI shows
 
 # How to Install
 

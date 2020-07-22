@@ -37,25 +37,35 @@ use jojoe77777\FormAPI\ModalForm;
 
 class Main extends PluginBase implements Listener{
 	
+    public static $mode;
+	
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
 	@mkdir($this->getDataFolder());
 	$this->saveResource("config.yml");
 	if (!$this->getConfig()->exists("config-version")){
-	    $this->getLogger()->notice("§4Your configuration file is outdated, updating the config.yml...");
+	    $this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
+	    $this->getLogger()->notice("The old configuration file can be found at config_old.yml");
 	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
             $this->saveResource("config.yml");
             return;
 	}
 	if(version_compare("1.1", $this->getConfig()->get("config-version"))){
-            $this->getLogger()->notice("§4Your configuration file is outdated, updating the config.yml...");
+            $this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
+	    $this->getLogger()->notice("The old configuration file can be found at config_old.yml");
 	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
             $this->saveResource("config.yml");
             return;
 	}
-	if ($this->getConfig()->get("Mode") == "SimpleForm") return;
-	if ($this->getConfig()->get("Mode") == "ModalForm") return;
-	$this->getLogger()->error(TextFormat::RED.("Please set the correct mode in the config.yml, changing the mode to SimpleForm..."));
+	if ($this->getConfig()->get("Mode") == "SimpleForm") {
+	    self::$mode = "SimpleForm";
+	    return;
+	}
+	if ($this->getConfig()->get("Mode") == "ModalForm") {
+	    self::$mode = "ModalForm";
+	    return;
+	}
+	$this->getLogger()->error(TextFormat::RED.("Incorrect mode have been set in the config.yml, changing the mode to SimpleForm..."));
 	$content = file_get_contents($this->getDataFolder()."config.yml");
 	$yml = yaml_parse($content);
 	$config = str_replace("Mode: ".$yml["Mode"] ,"Mode: SimpleForm" ,$content);
@@ -67,10 +77,10 @@ class Main extends PluginBase implements Listener{
 		
     public function onJoin(PlayerJoinEvent $event){
 	$player = $event->getPlayer();
-        if($this->getConfig()->get("Mode") == "SimpleForm"){
+        if(self::$mode == "SimpleForm"){
        	    $this->kygekSimpleJoinUI($player);
 	}
-	if($this->getConfig()->get("Mode") == "ModalForm"){
+	if(self::$mode == "ModalForm"){
        	    $this->kygekModalJoinUI($player);
 	}
     }
