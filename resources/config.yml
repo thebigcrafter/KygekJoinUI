@@ -1,10 +1,9 @@
----
 # Config of KygekJoinUI plugin
 # KygekJoinUI plugin by Kygekraqmak and aminozomty
 # If your config.yml data is lost it may be in config_old.yml
 
 
-# Use "\n" to make a new line
+# Use "{line}" to make a new line
 # Use "§" as formatting codes for texts
 # Use "{player}" to display the player's name
 # Use "{online}" to display the current players on the server
@@ -30,6 +29,7 @@
 
 
 # Set the plugin here!
+---
 config-version: 1.1
 Mode: SimpleForm
 title: KygekJoinUI
