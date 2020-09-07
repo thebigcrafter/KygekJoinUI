@@ -40,22 +40,23 @@ class Main extends PluginBase implements Listener{
     public static $mode;
 	
     public function onEnable(){
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
-	@mkdir($this->getDataFolder());
-	$this->saveResource("config.yml");
-	if (!$this->getConfig()->exists("config-version")){
+		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+		$this->getServer()->getCommandMap()->register($this->getConfig()->get("command-name"), new UICommand($this, $this->getConfig()->get("command-name"), $this->getConfig()->get("command-description")));
+		@mkdir($this->getDataFolder());
+		$this->saveResource("config.yml");
+		if (!$this->getConfig()->exists("config-version")){
 	    $this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
 	    $this->getLogger()->notice("The old configuration file can be found at config_old.yml");
 	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
-            $this->saveResource("config.yml");
-            return;
+        $this->saveResource("config.yml");
+        return;
 	}
 	if(version_compare("1.1", $this->getConfig()->get("config-version"))){
-            $this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
+        $this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
 	    $this->getLogger()->notice("The old configuration file can be found at config_old.yml");
 	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
-            $this->saveResource("config.yml");
-            return;
+        $this->saveResource("config.yml");
+        return;
 	}
 	if ($this->getConfig()->get("Mode") == "SimpleForm") {
 	    self::$mode = "SimpleForm";
@@ -67,19 +68,17 @@ class Main extends PluginBase implements Listener{
 	}
 	$this->ConfigFix();
     }
-		
     public function onJoin(PlayerJoinEvent $event){
-	$player = $event->getPlayer();
-	$this->ConfigFix();
-        if(self::$mode == "SimpleForm"){
+		$player = $event->getPlayer();
+		$this->ConfigFix();
+    	if(self::$mode == "SimpleForm"){
        	    $this->kygekSimpleJoinUI($player);
-	}
-	if(self::$mode == "ModalForm"){
-       	    $this->kygekModalJoinUI($player);
-	}
+		}
+		if(self::$mode == "ModalForm"){
+			$this->kygekModalJoinUI($player);
+		}
     }
-
-    private function kygekSimpleJoinUI($player){ 
+    public function kygekSimpleJoinUI($player){ 
         $form = new SimpleForm(function (Player $player, int $data = null){
             if($data === null){
                 return true;
@@ -128,7 +127,7 @@ class Main extends PluginBase implements Listener{
         return $form;
     }
 	
-    private function kygekModalJoinUI($player){ 
+    public function kygekModalJoinUI($player){ 
         $form = new ModalForm(function (Player $player, bool $data = null){
             if($data === null){
                 return true;
