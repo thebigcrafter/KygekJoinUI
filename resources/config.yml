@@ -30,6 +30,8 @@
 
 # Set the plugin here!
 ---
+command-name: joinui
+command-description: KygekJoinUI Command!
 config-version: 1.1
 Mode: SimpleForm
 title: KygekJoinUI
