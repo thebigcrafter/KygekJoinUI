@@ -107,7 +107,7 @@ class Main extends PluginBase implements Listener {
 		$form->setContent($this->replace($player, $this->getConfig()->get("content")));
 		foreach ($this->getConfig()->getNested("Buttons.SimpleForm") as $b) {
 			$text = explode(":", $b);
-			$form->addButton($this->replace($player, $text[0]);
+			$form->addButton($this->replace($player, $text[0]));
 		}
 		$form->sendToPlayer($player);
 		return $form;
