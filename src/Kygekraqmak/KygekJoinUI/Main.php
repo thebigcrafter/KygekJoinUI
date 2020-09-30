@@ -35,147 +35,112 @@ use jojoe77777\FormAPI;
 use jojoe77777\FormAPI\SimpleForm;
 use jojoe77777\FormAPI\ModalForm;
 
-class Main extends PluginBase implements Listener{
-	
-    public static $mode;
-	
-    public function onEnable(){
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
-	@mkdir($this->getDataFolder());
-	$this->saveResource("config.yml");
-	if (!$this->getConfig()->exists("config-version")){
-	    $this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
-	    $this->getLogger()->notice("The old configuration file can be found at config_old.yml");
-	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
-            $this->saveResource("config.yml");
-            return;
-	}
-	if(version_compare("1.1", $this->getConfig()->get("config-version"))){
-            $this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
-	    $this->getLogger()->notice("The old configuration file can be found at config_old.yml");
-	    rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
-            $this->saveResource("config.yml");
-            return;
-	}
-	if ($this->getConfig()->get("Mode") == "SimpleForm") {
-	    self::$mode = "SimpleForm";
-	    return;
-	}
-	if ($this->getConfig()->get("Mode") == "ModalForm") {
-	    self::$mode = "ModalForm";
-	    return;
-	}
-	$this->ConfigFix();
-    }
-		
-    public function onJoin(PlayerJoinEvent $event){
-	$player = $event->getPlayer();
-	$this->ConfigFix();
-        if(self::$mode == "SimpleForm"){
-       	    $this->kygekSimpleJoinUI($player);
-	}
-	if(self::$mode == "ModalForm"){
-       	    $this->kygekModalJoinUI($player);
-	}
-    }
+class Main extends PluginBase implements Listener {
 
-    private function kygekSimpleJoinUI($player){ 
-        $form = new SimpleForm(function (Player $player, int $data = null){
-            if($data === null){
-                return true;
-            }
-	        $Buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
+	public static $mode;
+
+	public function onEnable() {
+		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+		@mkdir($this->getDataFolder());
+		$this->saveResource("config.yml");
+		if (!$this->getConfig()->exists("config-version")) {
+			$this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
+			$this->getLogger()->notice("The old configuration file can be found at config_old.yml");
+			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
+			$this->saveResource("config.yml");
+			return;
+		}
+		if (version_compare("1.1", $this->getConfig()->get("config-version"))) {
+			$this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
+			$this->getLogger()->notice("The old configuration file can be found at config_old.yml");
+			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
+			$this->saveResource("config.yml");
+			return;
+		}
+		if ($this->getConfig()->get("Mode") == "SimpleForm") {
+			self::$mode = "SimpleForm";
+			return;
+		}
+		if ($this->getConfig()->get("Mode") == "ModalForm") {
+			self::$mode = "ModalForm";
+			return;
+		}
+		$this->ConfigFix();
+	}
+
+	public function onJoin(PlayerJoinEvent $event) {
+		$player = $event->getPlayer();
+		$this->ConfigFix();
+		if (self::$mode == "SimpleForm") {
+			$this->kygekSimpleJoinUI($player);
+		}
+		if (self::$mode == "ModalForm") {
+			$this->kygekModalJoinUI($player);
+		}
+	}
+
+	private function kygekSimpleJoinUI($player) {
+		$form = new SimpleForm(function (Player $player, int $data = null) {
+			if ($data === null) {
+				return true;
+			}
+			$Buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
 			$command = explode(":", $Buttons[$data]);
-	        if (count($command) <= 1){
-	    	    return;
-	        }
-            if ($command[1] == null){
-	    	    return;
+			if (count($command) <= 1) {
+				return;
+			}
+			if ($command[1] == null) {
+				return;
 			}
 			$first = true;
-			foreach($command as $cmd){
-				if ($first){
+			foreach ($command as $cmd) {
+				if ($first) {
 					$first = false;
-				}else{
+				} else {
 					$playern = str_replace("{player}", $player->getName(), $cmd);
 					$comnd = str_replace("{line}", "\n", $playern);
 					$this->getServer()->dispatchCommand(new ConsoleCommandSender(), $comnd);
 				}
-	        }
-        });
-		$world = str_replace("{world}", $player->getLevel()->getName(),$this->getConfig()->get("title"));
-		$playern = str_replace("{player}", $player->getName(), $world);
-		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
-		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $title = str_replace("{line}", "\n", $maxplayers);
-        $form->setTitle($title);
-	    $world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
-		$playern = str_replace("{player}", $player->getName(), $world);
-		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
-		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $content = str_replace("{line}", "\n", $maxplayers);
-		$form->setContent($content);
-	    foreach($this->getConfig()->getNested("Buttons.SimpleForm") as $b){
+			}
+		});
+		$form->setTitle($this->replace($player, $this->getConfig()->get("title")));
+		$form->setContent($this->replace($player, $this->getConfig()->get("content")));
+		foreach ($this->getConfig()->getNested("Buttons.SimpleForm") as $b) {
 			$text = explode(":", $b);
-	        $world = str_replace("{world}", $player->getLevel()->getName(), $text[0]);
-	        $playern = str_replace("{player}", $player->getName(), $world);
-			$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
-			$maxplayers = str_replace("{max_online}",$this->getServer()->getMaxPlayers(), $onlineplayers);
-			$text = str_replace("{line}", "\n", $maxplayers);
-	        $form->addButton($text);
-	    }
-        $form->sendToPlayer($player);
-        return $form;
-    }
-	
-    private function kygekModalJoinUI($player){ 
-        $form = new ModalForm(function (Player $player, bool $data = null){
-            if($data === null){
-                return true;
-            }             
-            switch($data){
-                case true:
-		            $command = $this->getConfig()->getNested("Buttons.ModalForm.B1.command");
-		            if ($command !== null){
-		                $this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $command));
-		            }
-                break;
-		        case false:
-		            $command = $this->getConfig()->getNested("Buttons.ModalForm.B2.command");
-		            if ($command !== null){
-		                $this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $command));
-		            }
-                break;
-            }
-        });
-        $world = str_replace("{world}", $player->getLevel()->getName(),$this->getConfig()->get("title"));
-		$playern = str_replace("{player}", $player->getName(), $world);
-		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
-		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $title = str_replace("{line}", "\n", $maxplayers);
-        $form->setTitle($title);
-		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->get("content"));
-		$playern = str_replace("{player}", $player->getName(), $world);
-		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
-		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $content = str_replace("{line}", "\n", $maxplayers);
-		$form->setContent($content);
-		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->getNested("Buttons.ModalForm.B1.name"));
-		$playern = str_replace("{player}", $player->getName(), $world);
-		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
-		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $B1 = str_replace("{line}", "\n", $maxplayers);
-    	$form->setButton1($B1);
-		$world = str_replace("{world}", $player->getLevel()->getName(), $this->getConfig()->getNested("Buttons.ModalForm.B2.name"));
-		$playern = str_replace("{player}", $player->getName(), $world);
-		$onlineplayers = str_replace("{online}", count($this->getServer()->getOnlinePlayers()), $playern);
-		$maxplayers = str_replace("{max_online}", $this->getServer()->getMaxPlayers(), $onlineplayers);
-	    $B2 = str_replace("{line}", "\n", $maxplayers);
-		$form->setButton2($B2);
-        $form->sendToPlayer($player);
-        return $form;
-    }
-	
+			$form->addButton($this->replace($player, $text[0]);
+		}
+		$form->sendToPlayer($player);
+		return $form;
+	}
+
+	private function kygekModalJoinUI($player) {
+		$form = new ModalForm(function (Player $player, bool $data = null) {
+			if ($data === null) {
+				return true;
+			}
+			switch ($data) {
+				case true:
+					$command = $this->getConfig()->getNested("Buttons.ModalForm.B1.command");
+					if ($command !== null) {
+						$this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $command));
+					}
+					break;
+				case false:
+					$command = $this->getConfig()->getNested("Buttons.ModalForm.B2.command");
+					if ($command !== null) {
+						$this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $command));
+					}
+					break;
+			}
+		});
+		$form->setTitle($this->replace($player, $this->getConfig()->get("title")));
+		$form->setContent($this->replace($player, $this->getConfig()->get("content")));
+		$form->setButton1($this->replace($player, $this->getConfig()->getNested("Buttons.ModalForm.B1.name")));
+		$form->setButton2($this->replace($player, $this->getConfig()->getNested("Buttons.ModalForm.B2.name")));
+		$form->sendToPlayer($player);
+		return $form;
+	}
+
 	private function ConfigFix() {
 		$this->getConfig()->reload();
 		if ($this->getConfig()->get("Mode") == "SimpleForm") {
@@ -196,5 +161,17 @@ class Main extends PluginBase implements Listener{
 		fwrite($file, $config);
 		fclose($file);
 	}
-	
+
+	private function replace(Player $player, string $text) : string {
+		$from = ["{world}", "{player}", "{online}", "{max_online}", "{line}"];
+		$to = [
+			$player->getLevel()->getName(),
+			$player->getName(),
+			count($this->getServer()->getOnlinePlayers()),
+			$this->getServer()->getMaxPlayers(),
+			"\n"
+		];
+		return str_replace($from, $to, $text);
+	}
+
 }
