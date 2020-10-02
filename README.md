@@ -27,7 +27,7 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 
 # Notice
 
-If you update the plugin, a file called config-old.yml will be generated. It will contain previously config.yml datas. You can restore the old data from there.
+If you update the plugin, a file called config-old.yml will be generated. It will contain previously config.yml datas. You can restore the old data from there.  
 
 # Additional Notes
 
