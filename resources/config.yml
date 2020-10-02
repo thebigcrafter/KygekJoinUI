@@ -1,3 +1,4 @@
+---
 # Config of KygekJoinUI plugin
 # KygekJoinUI plugin by Kygekraqmak and aminozomty
 # If your config.yml data is lost it may be in config_old.yml
@@ -12,7 +13,10 @@
 
 
 # How to set up:
-# config-version: 1.1               = Config.yml version (Don't change!)
+# config-version: 1.2               = Config.yml version (Don't change!)
+# command-mode: console             = Change the command execute mode (as player or console)
+# commands-on-close:                = Commands that will be executed when player close the form (X button at top right corner)
+# - say Hello!                      = You can add as many as you want
 # Mode: SimpleForm                  = Change the KygekJoinUI mode (SimpleForm or ModalForm)
 # title: KygekJoinUI                = Change the title of KygekJoinUI
 # content: Change in config.yml!    = Change the content of KygekJoinUI
@@ -29,8 +33,10 @@
 
 
 # Set the plugin here!
----
-config-version: 1.1
+config-version: 1.2
+command-mode: console
+commands-on-close:
+- say Hello!
 Mode: SimpleForm
 title: KygekJoinUI
 content: Change in config.yml!
