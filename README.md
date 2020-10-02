@@ -14,6 +14,9 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 * {online} can be used to display currently online players on the server
 * {max_online} can be used to display maximum online players on the server
 * {world} can be used to display the world name the KygekJoinUI shows
+* Detects missing config file
+* Command execute mode can be as console or player
+* Add commands when player closes the KygekJoinUI by pressing the X button
 
 # How to Install
 
@@ -24,10 +27,7 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 
 # Notice
 
-If you're using version 1.1.0 and above, just ignore this notice.
-If you're using version 1.0.0, please read below before updating!
-
-If you update the plugin to 1.1.0 and above, a file called config-old.yml will be generated. It will contain previously config.yml datas. You can restore the old data from there.
+If you update the plugin, a file called config-old.yml will be generated. It will contain previously config.yml datas. You can restore the old data from there.
 
 # Additional Notes
 
