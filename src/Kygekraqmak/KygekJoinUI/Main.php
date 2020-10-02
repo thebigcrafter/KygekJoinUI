@@ -38,6 +38,7 @@ use jojoe77777\FormAPI\ModalForm;
 class Main extends PluginBase implements Listener {
 
 	public static $mode;
+	private $cmdmode;
 
 	public function onEnable() {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -50,18 +51,17 @@ class Main extends PluginBase implements Listener {
 			$this->saveResource("config.yml");
 			return;
 		}
-		if (version_compare("1.1", $this->getConfig()->get("config-version"))) {
+		if (version_compare("1.2", $this->getConfig()->get("config-version"))) {
 			$this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
 			$this->getLogger()->notice("The old configuration file can be found at config_old.yml");
 			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
 			$this->saveResource("config.yml");
 			return;
 		}
-		if ($this->getConfig()->get("Mode") == "SimpleForm") {
+		if (stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
 			self::$mode = "SimpleForm";
 			return;
-		}
-		if ($this->getConfig()->get("Mode") == "ModalForm") {
+		} elseif (stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
 			self::$mode = "ModalForm";
 			return;
 		}
@@ -70,6 +70,10 @@ class Main extends PluginBase implements Listener {
 
 	public function onJoin(PlayerJoinEvent $event) {
 		$player = $event->getPlayer();
+		if (!file_exists($this->getDataFolder()."config.yml")) {
+			$player->sendMessage(TextFormat::YELLOW . "[KygekJoinUI] " . TextFormat::RED . "Config file cannot be found, please restart the server!");
+			return;
+		}
 		$this->ConfigFix();
 		if (self::$mode == "SimpleForm") {
 			$this->kygekSimpleJoinUI($player);
@@ -82,6 +86,7 @@ class Main extends PluginBase implements Listener {
 	private function kygekSimpleJoinUI($player) {
 		$form = new SimpleForm(function (Player $player, int $data = null) {
 			if ($data === null) {
+				$this->dispatchCommandsOnClose($player);
 				return true;
 			}
 			$Buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
@@ -99,7 +104,7 @@ class Main extends PluginBase implements Listener {
 				} else {
 					$playern = str_replace("{player}", $player->getName(), $cmd);
 					$comnd = str_replace("{line}", "\n", $playern);
-					$this->getServer()->dispatchCommand(new ConsoleCommandSender(), $comnd);
+					$this->getServer()->dispatchCommand($this->commandMode($player), $comnd);
 				}
 			}
 		});
@@ -116,19 +121,20 @@ class Main extends PluginBase implements Listener {
 	private function kygekModalJoinUI($player) {
 		$form = new ModalForm(function (Player $player, bool $data = null) {
 			if ($data === null) {
+				$this->dispatchCommandsOnClose($player);
 				return true;
 			}
 			switch ($data) {
 				case true:
 					$command = $this->getConfig()->getNested("Buttons.ModalForm.B1.command");
 					if ($command !== null) {
-						$this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $command));
+						$this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
 					}
 					break;
 				case false:
 					$command = $this->getConfig()->getNested("Buttons.ModalForm.B2.command");
 					if ($command !== null) {
-						$this->getServer()->dispatchCommand(new ConsoleCommandSender(), str_replace("{player}", $player->getName(), $command));
+						$this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
 					}
 					break;
 			}
@@ -143,11 +149,10 @@ class Main extends PluginBase implements Listener {
 
 	private function ConfigFix() {
 		$this->getConfig()->reload();
-		if ($this->getConfig()->get("Mode") == "SimpleForm") {
+		if (stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
 			self::$mode = "SimpleForm";
 			return;
-		}
-		if ($this->getConfig()->get("Mode") == "ModalForm") {
+		} elseif (stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
 			self::$mode = "ModalForm";
 			return;
 		}
@@ -172,6 +177,23 @@ class Main extends PluginBase implements Listener {
 			"\n"
 		];
 		return str_replace($from, $to, $text);
+	}
+
+	private function commandMode(Player $player) {
+		if (stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender();
+		elseif (stripos($this->getConfig()->get("command-mode"), "player") !== false) return $player;
+		else {
+			$this->getLogger()->error(TextFormat::RED.("Incorrect command mode have been set in the config.yml, changing the command mode to console..."));
+			$this->getConfig()->set("command-mode", "console");
+			$this->getConfig()->save();
+			return new ConsoleCommandSender();
+		}
+	}
+
+	private function dispatchCommandsOnClose($player) {
+		foreach ($this->getConfig()->get("commands-on-close") as $command) {
+			$this->getServer()->dispatchCommand($this->commandMode($player), $command);
+		}
 	}
 
 }
