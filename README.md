@@ -31,7 +31,7 @@ If you update the plugin, a file called config-old.yml will be generated. It wil
 
 # Additional Notes
 
-KygekJoinUI is owned by Kygekraqmak.
+KygekJoinUI is owned by Kygekraqmak.  
 KygekJoinUI is developed by Kygekraqmak and aminozomty.
 
 For more information about this plugin, please visit the <a href="https://github.com/Kygekraqmak/KygekJoinUI/wiki">wiki</a>.
