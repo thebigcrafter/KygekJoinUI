@@ -103,8 +103,7 @@ class Main extends PluginBase implements Listener {
 					$first = false;
 				} else {
 					$playern = str_replace("{player}", $player->getName(), $cmd);
-					$comnd = str_replace("{line}", "\n", $playern);
-					$this->getServer()->dispatchCommand($this->commandMode($player), $comnd);
+					$this->getServer()->dispatchCommand($this->commandMode($player), $playern);
 				}
 			}
 		});
@@ -192,7 +191,7 @@ class Main extends PluginBase implements Listener {
 
 	private function dispatchCommandsOnClose($player) {
 		foreach ($this->getConfig()->get("commands-on-close") as $command) {
-			$this->getServer()->dispatchCommand($this->commandMode($player), $command);
+			$this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
 		}
 	}
 
