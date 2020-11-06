@@ -33,7 +33,6 @@
 
 
 # Set the plugin here!
-config-version: 1.2
 command-mode: console
 commands-on-close:
 - say Hello!
@@ -51,6 +50,13 @@ Buttons:
       name: Button2
       command: say Button2!
 
+
 # Whether to check for plugin updates (Recommended)
 check-updates: true
+
+
+##### DANGER ZONE #####
+# Do not change this (Only for internal use)!
+config-version: 1.3
+#######################
 ...
