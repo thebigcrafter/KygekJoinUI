@@ -18,22 +18,15 @@
 
 namespace Kygekraqmak\KygekJoinUI;
 
+use JackMD\UpdateNotifier\UpdateNotifier;
+use jojoe77777\FormAPI\SimpleForm;
+use jojoe77777\FormAPI\ModalForm;
 use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\Server;
 use pocketmine\Player;
-use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat;
-use pocketmine\command\Command;
-use pocketmine\command\CommandSender;
-use pocketmine\command\CommandExecutor;
 use pocketmine\command\ConsoleCommandSender;
-use pocketmine\utils\Config;
-
-use jojoe77777\FormAPI;
-use jojoe77777\FormAPI\SimpleForm;
-use jojoe77777\FormAPI\ModalForm;
 
 class Main extends PluginBase implements Listener {
 
@@ -66,6 +59,9 @@ class Main extends PluginBase implements Listener {
 			return;
 		}
 		$this->ConfigFix();
+        if ($this->getConfig()->get("check-updates", true)) {
+            UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
+        }
 	}
 
 	public function onJoin(PlayerJoinEvent $event) {

@@ -50,4 +50,7 @@ Buttons:
     B2:
       name: Button2
       command: say Button2!
+
+# Whether to check for plugin updates (Recommended)
+check-updates: true
 ...
