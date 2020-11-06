@@ -17,6 +17,7 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 * Detects missing config file
 * Command execute mode can be as console or player
 * Add commands when player closes the KygekJoinUI by pressing the X button
+* Automatic plugin update checker on server startup
 
 # How to Install
 
@@ -29,11 +30,15 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 
 If you update the plugin, a file called config-old.yml will be generated. It will contain previously config.yml datas. You can restore the old data from there.  
 
+# Upcoming Features
+
+- Currently none planned. You can contribute or suggest for new features.
+
 # Additional Notes
 
 KygekJoinUI is owned by Kygekraqmak.  
 KygekJoinUI is developed by Kygekraqmak and aminozomty.
 
-For more information about this plugin, please visit the <a href="https://github.com/Kygekraqmak/KygekJoinUI/wiki">wiki</a>.
-
-If you found bugs while using this plugin, please report it in <a href="https://github.com/Kygekraqmak/KygekJoinUI/issues">here</a>.
+- Join our Discord server <a href="https://discord.gg/CXtqUZv">here</a> for latest updates from Kygekraqmak.
+- If you found bugs or want to give suggestions, please visit <a href="https://github.com/Kygekraqmak/KygekJoinUI/issues">here</a> or DM KygekDev#6415 via Discord.
+- We accept any contributions! If you want to contribute please make a pull request in <a href="https://github.com/Kygekraqmak/KygekJoinUI/pulls">here</a>.
