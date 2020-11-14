@@ -18,6 +18,7 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 * Command execute mode can be as console or player
 * Add commands when player closes the KygekJoinUI by pressing the X button
 * Automatic plugin update checker on server startup
+* Add an image beside buttons
 
 # How to Install
 
