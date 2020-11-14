@@ -92,18 +92,6 @@ class Main extends PluginBase implements Listener {
                     $this->getServer()->dispatchCommand($this->commandMode($player), $playern);
                 }
             }
-			/*$button = explode(":", $buttons[$data]);
-			if (count($button) === 1) return;
-			array_pop($button);
-			$first = true;
-			foreach ($button as $cmd) {
-				if ($first) {
-					$first = false;
-				} else {
-					$playern = str_replace("{player}", $player->getName(), $cmd);
-					$this->getServer()->dispatchCommand($this->commandMode($player), $playern);
-				}
-			}*/
 		});
 		$form->setTitle($this->replace($player, $this->getConfig()->get("title")));
 		$form->setContent($this->replace($player, $this->getConfig()->get("content")));
@@ -119,19 +107,6 @@ class Main extends PluginBase implements Listener {
                     $form->addButton($this->replace($player, $button["name"]), 0, $image);
                 }
             }
-			/*$text = explode(":", $b);
-			if (count($text) === 1) {
-                $form->addButton($this->replace($player, $text[0]));
-                continue;
-            }
-			$image = array_pop($text);
-			if ($image != null) {
-                if ($this->startsWith($image, "http://") || $this->startsWith($image, "https://")) {
-                    $form->addButton($this->replace($player, $text[0]), 1, $image);
-                } else {
-                    $form->addButton($this->replace($player, $text[0]), 0, $image);
-                }
-            } else $form->addButton($this->replace($player, $text[0]));*/
 		}
 		$form->sendToPlayer($player);
 		return $form;
