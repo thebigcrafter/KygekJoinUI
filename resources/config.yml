@@ -22,7 +22,11 @@
 # content: Change in config.yml!    = Change the content of KygekJoinUI
 # Buttons:                          = The button(s) of KygekJoinUI (SimpleForm or ModalForm)
 #   SimpleForm:                     = Button(s) that will show if you choose SimpleForm mode
-#   - Ok:say Hello!                 = Change the button of SimpleForm mode of KygekJoinUI (use button_name:command1:command2:... to execute commands when the button is pressed)
+#   - name: "Ok"                    = Change the button of SimpleForm mode of KygekJoinUI
+#     image: "textures/ui/confirm"  = [Optional] Add an image that will be shown beside the button
+#                                     IMPORTANT: Please visit https://github.com/Kygekraqmak/Kygekraqmak/blob/master/docs/using-images-kygekraqmak-plugins.md for image guides
+#     commands:                     = [Optional] Commands that will be executed when the button is pressed
+#     - "say Hello!"                = You can add as many commands you want
 #   ModalForm:                      = Button(s) that will show if you choose ModalForm mode (only supports 2 buttons!)
 #     B1:                           = First button of ModalForm mode (Don't change!)
 #       name: Button1               = Change the button of the first ModalForm button
@@ -41,7 +45,10 @@ title: KygekJoinUI
 content: Change in config.yml!
 Buttons:
   SimpleForm:
-  - Ok:say Hello!
+  - name: "Ok"
+    image: "textures/ui/confirm"
+    commands:
+    - "say Hello!"
   ModalForm:
     B1:
       name: Button1

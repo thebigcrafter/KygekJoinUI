@@ -85,29 +85,53 @@ class Main extends PluginBase implements Listener {
 				$this->dispatchCommandsOnClose($player);
 				return true;
 			}
-			$Buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
-			$command = explode(":", $Buttons[$data]);
-			if (count($command) <= 1) {
-				return;
-			}
-			if ($command[1] == null) {
-				return;
-			}
+			$buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
+			if (!empty($buttons[$data]["commands"])) {
+                foreach ($buttons[$data]["commands"] as $command) {
+                    $playern = str_replace("{player}", $player->getName(), $command);
+                    $this->getServer()->dispatchCommand($this->commandMode($player), $playern);
+                }
+            }
+			/*$button = explode(":", $buttons[$data]);
+			if (count($button) === 1) return;
+			array_pop($button);
 			$first = true;
-			foreach ($command as $cmd) {
+			foreach ($button as $cmd) {
 				if ($first) {
 					$first = false;
 				} else {
 					$playern = str_replace("{player}", $player->getName(), $cmd);
 					$this->getServer()->dispatchCommand($this->commandMode($player), $playern);
 				}
-			}
+			}*/
 		});
 		$form->setTitle($this->replace($player, $this->getConfig()->get("title")));
 		$form->setContent($this->replace($player, $this->getConfig()->get("content")));
-		foreach ($this->getConfig()->getNested("Buttons.SimpleForm") as $b) {
-			$text = explode(":", $b);
-			$form->addButton($this->replace($player, $text[0]));
+		$buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
+		foreach ($buttons as $button) {
+		    if (empty($button["image"])) {
+                $form->addButton($this->replace($player, $button["name"]));
+            } else {
+                $image = $button["image"];
+		        if ($this->startsWith($image, "http://") || $this->startsWith($image, "https://")) {
+                    $form->addButton($this->replace($player, $button["name"]), 1, $image);
+                } else {
+                    $form->addButton($this->replace($player, $button["name"]), 0, $image);
+                }
+            }
+			/*$text = explode(":", $b);
+			if (count($text) === 1) {
+                $form->addButton($this->replace($player, $text[0]));
+                continue;
+            }
+			$image = array_pop($text);
+			if ($image != null) {
+                if ($this->startsWith($image, "http://") || $this->startsWith($image, "https://")) {
+                    $form->addButton($this->replace($player, $text[0]), 1, $image);
+                } else {
+                    $form->addButton($this->replace($player, $text[0]), 0, $image);
+                }
+            } else $form->addButton($this->replace($player, $text[0]));*/
 		}
 		$form->sendToPlayer($player);
 		return $form;
@@ -190,5 +214,9 @@ class Main extends PluginBase implements Listener {
 			$this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
 		}
 	}
+
+    private function startsWith(string $haystack, string $needle): bool {
+        return strncmp($haystack, $needle, strlen($needle)) === 0;
+    }
 
 }
