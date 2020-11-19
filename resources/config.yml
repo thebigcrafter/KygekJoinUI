@@ -64,6 +64,6 @@ check-updates: true
 
 ##### DANGER ZONE #####
 # Do not change this (Only for internal use)!
-config-version: 1.4
+config-version: 1.5
 #######################
 ...
