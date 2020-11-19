@@ -15,7 +15,7 @@
 # How to set up:
 # config-version: 1.2               = Config.yml version (Don't change!)
 # command-mode: console             = Change the command execute mode (as player or console)
-# join-first-time: false            = Whether to only open KygekJoinUI to players that joined the server for the first time
+# join-first-time: false            = Whether to only show KygekJoinUI to players that joined the server for the first time
 # commands-on-close:                = Commands that will be executed when player close the form (X button at top right corner)
 # - say Hello!                      = You can add as many as you want
 # Mode: SimpleForm                  = Change the KygekJoinUI mode (SimpleForm or ModalForm)

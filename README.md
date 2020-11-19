@@ -1,5 +1,7 @@
 # KygekJoinUI
 
+[![Discord](https://img.shields.io/discord/735439472992321587.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/CXtqUZv)
+
 A plugin for PocketMine-MP that will show an UI for information and guides of the server when players joins the server.
 
 # Features
@@ -19,6 +21,7 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 * Add commands when player closes the KygekJoinUI by pressing the X button
 * Automatic plugin update checker on server startup
 * Add an image beside buttons
+* You can set KygekJonUI to only be shown to players joined the first time
 
 # How to Install
 
