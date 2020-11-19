@@ -72,10 +72,14 @@ class Main extends PluginBase implements Listener {
 		}
 		$this->ConfigFix();
 		if (self::$mode == "SimpleForm") {
-			$this->kygekSimpleJoinUI($player);
+		    if ($this->getConfig()->get("join-first-time", false)) {
+                if (!$player->hasPlayedBefore()) $this->kygekSimpleJoinUI($player);
+            } else $this->kygekSimpleJoinUI($player);
 		}
 		if (self::$mode == "ModalForm") {
-			$this->kygekModalJoinUI($player);
+            if ($this->getConfig()->get("join-first-time", false)) {
+                if (!$player->hasPlayedBefore()) $this->kygekModalJoinUI($player);
+            } else $this->kygekModalJoinUI($player);
 		}
 	}
 
