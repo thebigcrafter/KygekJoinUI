@@ -37,6 +37,9 @@ class Main extends PluginBase implements Listener {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		@mkdir($this->getDataFolder());
 		$this->saveResource("config.yml");
+        if ($this->getConfig()->get("check-updates", true)) {
+            UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
+        }
 		if (!$this->getConfig()->exists("config-version")) {
 			$this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
 			$this->getLogger()->notice("The old configuration file can be found at config_old.yml");
@@ -59,9 +62,6 @@ class Main extends PluginBase implements Listener {
 			return;
 		}
 		$this->ConfigFix();
-        if ($this->getConfig()->get("check-updates", true)) {
-            UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
-        }
 	}
 
 	public function onJoin(PlayerJoinEvent $event) {
