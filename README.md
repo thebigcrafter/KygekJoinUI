@@ -1,5 +1,6 @@
 # KygekJoinUI
 
+[![Poggit](https://poggit.pmmp.io/shield.dl.total/KygekJoinUI)](https://poggit.pmmp.io/p/KygekJoinUI)
 [![Discord](https://img.shields.io/discord/735439472992321587.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/CXtqUZv)
 
 A plugin for PocketMine-MP that will show an UI for information and guides of the server when players joins the server.
