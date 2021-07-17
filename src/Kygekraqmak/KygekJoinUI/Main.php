@@ -1,7 +1,7 @@
 <?php
 
 # A plugin for PocketMine-MP that will show an UI for information and guides when players joins the server.
-# Copyright (C) 2020 Kygekraqmak
+# Copyright (C) 2020 Kygekraqmak, KygekTeam
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
