@@ -30,6 +30,8 @@ use pocketmine\command\ConsoleCommandSender;
 
 class Main extends PluginBase implements Listener {
 
+    private const IS_DEV = true;
+
 	public static $mode;
 	private $cmdmode;
 
@@ -37,6 +39,11 @@ class Main extends PluginBase implements Listener {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		@mkdir($this->getDataFolder());
 		$this->saveResource("config.yml");
+
+		if (self::IS_DEV) {
+		    $this->getLogger()->warning("This plugin is running on a development version. There might be some major bugs. If you found one, please submit an issue in https://github.com/KygekTeam/KygekJoinUI/issues.");
+        }
+
         if ($this->getConfig()->get("check-updates", true)) {
             UpdateNotifier::checkUpdate($this, $this->getDescription()->getVersion());
         }
