@@ -38,7 +38,7 @@ class Main extends PluginBase implements Listener {
 		@mkdir($this->getDataFolder());
 		$this->saveResource("config.yml");
         if ($this->getConfig()->get("check-updates", true)) {
-            UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
+            UpdateNotifier::checkUpdate($this, $this->getDescription()->getVersion());
         }
 		if (!$this->getConfig()->exists("config-version")) {
 			$this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
