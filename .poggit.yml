@@ -10,5 +10,6 @@ projects:
     - src: Vecnavium/FormAPI/libFormAPI
       version: 1.4.0-alpha
     - src: KygekTeam/ktpmpl-cfs/ktpmpl-cfs
+      branch: pm4
       version: ^2.0
 ...
