@@ -12,4 +12,6 @@ projects:
     - src: KygekTeam/ktpmpl-cfs/ktpmpl-cfs
       branch: pm4
       version: ^2.0
+    lint:
+      phpstan: false
 ...
