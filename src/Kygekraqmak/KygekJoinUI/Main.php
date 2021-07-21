@@ -21,21 +21,20 @@ namespace Kygekraqmak\KygekJoinUI;
 use jojoe77777\FormAPI\SimpleForm;
 use jojoe77777\FormAPI\ModalForm;
 use KygekTeam\KtpmplCfs\KtpmplCfs;
+use pocketmine\console\ConsoleCommandSender;
 use pocketmine\event\player\PlayerJoinEvent;
-use pocketmine\Player;
+use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat;
-use pocketmine\command\ConsoleCommandSender;
 
 class Main extends PluginBase implements Listener {
 
     private const IS_DEV = true;
 
 	public static $mode;
-	private $cmdmode;
 
-	public function onEnable() {
+	public function onEnable() : void {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		@mkdir($this->getDataFolder());
 		$this->saveResource("config.yml");
@@ -77,7 +76,7 @@ class Main extends PluginBase implements Listener {
 		}
 	}
 
-	private function kygekSimpleJoinUI($player) {
+	private function kygekSimpleJoinUI(Player $player) {
 		$form = new SimpleForm(function (Player $player, int $data = null) {
 			if ($data === null) {
 				$this->dispatchCommandsOnClose($player);
@@ -106,11 +105,10 @@ class Main extends PluginBase implements Listener {
                 }
             }
 		}
-		$form->sendToPlayer($player);
-		return $form;
+		$player->sendForm($form);
 	}
 
-	private function kygekModalJoinUI($player) {
+	private function kygekModalJoinUI(Player $player) {
 		$form = new ModalForm(function (Player $player, bool $data = null) {
 			if ($data === null) {
 				$this->dispatchCommandsOnClose($player);
@@ -135,8 +133,7 @@ class Main extends PluginBase implements Listener {
 		$form->setContent($this->replace($player, $this->getConfig()->get("content")));
 		$form->setButton1($this->replace($player, $this->getConfig()->getNested("Buttons.ModalForm.B1.name")));
 		$form->setButton2($this->replace($player, $this->getConfig()->getNested("Buttons.ModalForm.B2.name")));
-		$form->sendToPlayer($player);
-		return $form;
+		$player->sendForm($form);
 	}
 
 	private function ConfigFix() {
@@ -162,7 +159,7 @@ class Main extends PluginBase implements Listener {
 	private function replace(Player $player, string $text) : string {
 		$from = ["{world}", "{player}", "{online}", "{max_online}", "{line}"];
 		$to = [
-			$player->getLevel()->getName(),
+			$player->getWorld()->getDisplayName(),
 			$player->getName(),
 			count($this->getServer()->getOnlinePlayers()),
 			$this->getServer()->getMaxPlayers(),
@@ -172,13 +169,14 @@ class Main extends PluginBase implements Listener {
 	}
 
 	private function commandMode(Player $player) {
-		if (stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender();
+	    $server = $this->getServer();
+		if (stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender($server, $server->getLanguage());
 		elseif (stripos($this->getConfig()->get("command-mode"), "player") !== false) return $player;
 		else {
 			$this->getLogger()->error(TextFormat::RED.("Incorrect command mode have been set in the config.yml, changing the command mode to console..."));
 			$this->getConfig()->set("command-mode", "console");
 			$this->getConfig()->save();
-			return new ConsoleCommandSender();
+			return new ConsoleCommandSender($server, $server->getLanguage());
 		}
 	}
 
