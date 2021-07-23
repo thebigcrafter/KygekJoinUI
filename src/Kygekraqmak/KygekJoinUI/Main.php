@@ -32,7 +32,7 @@ class Main extends PluginBase implements Listener {
 
     private const IS_DEV = true;
 
-    public static $mode;
+    public static string $mode;
 
     public function onEnable() : void {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
