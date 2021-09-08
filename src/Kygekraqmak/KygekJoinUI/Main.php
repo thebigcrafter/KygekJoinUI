@@ -45,7 +45,7 @@ class Main extends PluginBase implements Listener {
         }
 
         KtpmplCfs::checkUpdates($this);
-        KtpmplCfs::checkConfig($this, "2.0-ALPHA");
+        KtpmplCfs::checkConfig($this, "2.0");
 
         if (stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
             self::$mode = "SimpleForm";
