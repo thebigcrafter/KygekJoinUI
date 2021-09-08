@@ -7,8 +7,8 @@ projects:
   KygekJoinUI:
     path: ""
     libs:
-    - src: Vecnavium/FormAPI/libFormAPI
-      version: 1.4.0-alpha
+    - src: Vecnavium/FormsUI/FormsUI
+      version: ^1.0.0
     - src: KygekTeam/ktpmpl-cfs/ktpmpl-cfs
       branch: pm4
       version: ^2.0
