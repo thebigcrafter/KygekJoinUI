@@ -18,8 +18,6 @@
 
 namespace Kygekraqmak\KygekJoinUI;
 
-use jojoe77777\FormAPI\SimpleForm;
-use jojoe77777\FormAPI\ModalForm;
 use KygekTeam\KtpmplCfs\KtpmplCfs;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\event\player\PlayerJoinEvent;
@@ -27,6 +25,8 @@ use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat;
+use Vecnavium\FormsUI\ModalForm;
+use Vecnavium\FormsUI\SimpleForm;
 
 class Main extends PluginBase implements Listener {
 
@@ -168,7 +168,7 @@ class Main extends PluginBase implements Listener {
         return str_replace($from, $to, $text);
     }
 
-    private function commandMode(Player $player) {
+    private function commandMode(Player $player) : Player|ConsoleCommandSender {
         $server = $this->getServer();
         if (stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender($server, $server->getLanguage());
         elseif (stripos($this->getConfig()->get("command-mode"), "player") !== false) return $player;
