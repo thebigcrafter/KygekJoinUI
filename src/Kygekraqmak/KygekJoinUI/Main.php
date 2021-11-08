@@ -47,7 +47,7 @@ class Main extends PluginBase implements Listener {
 			$this->saveResource("config.yml");
 			return;
 		}
-		if (version_compare("1.5", $this->getConfig()->get("config-version"))) {
+		if (version_compare("1.6", $this->getConfig()->get("config-version"))) {
 			$this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
 			$this->getLogger()->notice("The old configuration file can be found at config_old.yml");
 			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
