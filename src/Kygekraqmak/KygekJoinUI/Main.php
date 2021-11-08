@@ -18,9 +18,9 @@
 
 namespace Kygekraqmak\KygekJoinUI;
 
-use JackMD\UpdateNotifier\UpdateNotifier;
 use jojoe77777\FormAPI\SimpleForm;
 use jojoe77777\FormAPI\ModalForm;
+use KygekTeam\KtpmplCfs\KtpmplCfs;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -37,23 +37,8 @@ class Main extends PluginBase implements Listener {
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		@mkdir($this->getDataFolder());
 		$this->saveResource("config.yml");
-        if ($this->getConfig()->get("check-updates", true)) {
-            UpdateNotifier::checkUpdate($this->getDescription()->getName(), $this->getDescription()->getVersion());
-        }
-		if (!$this->getConfig()->exists("config-version")) {
-			$this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
-			$this->getLogger()->notice("The old configuration file can be found at config_old.yml");
-			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
-			$this->saveResource("config.yml");
-			return;
-		}
-		if (version_compare("1.6", $this->getConfig()->get("config-version"))) {
-			$this->getLogger()->notice("Your configuration file is outdated, updating the config.yml...");
-			$this->getLogger()->notice("The old configuration file can be found at config_old.yml");
-			rename($this->getDataFolder()."config.yml", $this->getDataFolder()."config_old.yml");
-			$this->saveResource("config.yml");
-			return;
-		}
+        KtpmplCfs::checkUpdates($this);
+        KtpmplCfs::checkConfig($this, "1.6");
 		if (stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
 			self::$mode = "SimpleForm";
 			return;
