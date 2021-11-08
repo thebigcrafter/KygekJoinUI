@@ -13,7 +13,6 @@
 
 
 # How to set up:
-# config-version: 1.2               = Config.yml version (Don't change!)
 # command-mode: console             = Change the command execute mode (as player or console)
 # join-first-time: false            = Whether to only show KygekJoinUI to players that joined the server for the first time
 # commands-on-close:                = Commands that will be executed when player close the form (X button at top right corner)
@@ -25,7 +24,7 @@
 #   SimpleForm:                     = Button(s) that will show if you choose SimpleForm mode
 #   - name: "Ok"                    = Change the button of SimpleForm mode of KygekJoinUI
 #     image: "textures/ui/confirm"  = [Optional] Add an image that will be shown beside the button
-#                                     IMPORTANT: Please visit https://github.com/Kygekraqmak/Kygekraqmak/blob/master/docs/using-images-kygekraqmak-plugins.md for image guides
+#                                     IMPORTANT: Please visit https://github.com/KygekDev/KygekDev/blob/master/docs/using-images-kygekdev-plugins.md for image guides
 #     commands:                     = [Optional] Commands that will be executed when the button is pressed
 #     - "say Hello!"                = You can add as many commands you want
 #   ModalForm:                      = Button(s) that will show if you choose ModalForm mode (only supports 2 buttons!)
