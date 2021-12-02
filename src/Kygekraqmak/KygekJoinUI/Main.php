@@ -30,7 +30,7 @@ use Vecnavium\FormsUI\SimpleForm;
 
 class Main extends PluginBase implements Listener {
 
-    private const IS_DEV = true;
+    private const IS_DEV = false;
 
     public static string $mode;
 
