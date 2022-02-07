@@ -5,7 +5,7 @@
 
 
 # Use "{line}" to make a new line
-# Use "§" as formatting codes for texts
+# Use "&" as formatting codes for texts
 # Use "{player}" to display the player's name
 # Use "{online}" to display the current players on the server
 # Use "{max_online}" to display the server's maximum players
@@ -61,6 +61,9 @@ Buttons:
 
 # Whether to check for plugin updates (Recommended)
 check-updates: true
+
+# Whether to warn if plugin is running on a development version (Recommended)
+warn-development: true
 
 
 ##### DANGER ZONE #####

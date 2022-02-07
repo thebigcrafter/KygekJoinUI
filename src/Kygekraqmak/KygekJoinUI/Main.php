@@ -34,23 +34,23 @@ class Main extends PluginBase implements Listener {
 
     public static string $mode;
 
-    public function onEnable() : void {
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        @mkdir($this->getDataFolder());
-        $this->saveResource("config.yml");
+    protected function onEnable() : void {
+        $this->saveDefaultConfig();
+        $ktpmplCfs = new KtpmplCfs($this);
 
         /** @phpstan-ignore-next-line */
         if (self::IS_DEV) {
-            $this->getLogger()->warning("This plugin is running on a development version. There might be some major bugs. If you found one, please submit an issue in https://github.com/KygekTeam/KygekJoinUI/issues.");
+            $ktpmplCfs->warnDevelopmentVersion();
         }
 
-        KtpmplCfs::checkUpdates($this);
-        KtpmplCfs::checkConfig($this, "2.1");
+        $ktpmplCfs->checkUpdates();
+        $ktpmplCfs->checkConfig("2.1");
 
-        if (stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
+        $this->getServer()->getPluginManager()->registerEvents($this, $this);
+        if (mb_stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
             self::$mode = "SimpleForm";
             return;
-        } elseif (stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
+        } elseif (mb_stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
             self::$mode = "ModalForm";
             return;
         }
@@ -98,11 +98,8 @@ class Main extends PluginBase implements Listener {
                 $form->addButton($this->replace($player, $button["name"]));
             } else {
                 $image = $button["image"];
-                if ($this->startsWith($image, "http://") || $this->startsWith($image, "https://")) {
-                    $form->addButton($this->replace($player, $button["name"]), 1, $image);
-                } else {
-                    $form->addButton($this->replace($player, $button["name"]), 0, $image);
-                }
+                $url = str_starts_with($image, "http://") || str_starts_with($image, "https://");
+                $form->addButton($this->replace($player, $button["name"]), $url ? 1 : 0, $image);
             }
         }
         $player->sendForm($form);
@@ -138,10 +135,10 @@ class Main extends PluginBase implements Listener {
 
     private function ConfigFix() {
         $this->getConfig()->reload();
-        if (stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
+        if (mb_stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
             self::$mode = "SimpleForm";
             return;
-        } elseif (stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
+        } elseif (mb_stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
             self::$mode = "ModalForm";
             return;
         }
@@ -165,13 +162,13 @@ class Main extends PluginBase implements Listener {
             $this->getServer()->getMaxPlayers(),
             "\n"
         ];
-        return str_replace($from, $to, $text);
+        return TextFormat::colorize(str_replace($from, $to, $text));
     }
 
     private function commandMode(Player $player) : Player|ConsoleCommandSender {
         $server = $this->getServer();
-        if (stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender($server, $server->getLanguage());
-        elseif (stripos($this->getConfig()->get("command-mode"), "player") !== false) return $player;
+        if (mb_stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender($server, $server->getLanguage());
+        elseif (mb_stripos($this->getConfig()->get("command-mode"), "player") !== false) return $player;
         else {
             $this->getLogger()->error(TextFormat::RED.("Incorrect command mode have been set in the config.yml, changing the command mode to console..."));
             $this->getConfig()->set("command-mode", "console");
@@ -184,10 +181,6 @@ class Main extends PluginBase implements Listener {
         foreach ($this->getConfig()->get("commands-on-close") as $command) {
             $this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
         }
-    }
-
-    private function startsWith(string $haystack, string $needle): bool {
-        return strncmp($haystack, $needle, strlen($needle)) === 0;
     }
 
 }

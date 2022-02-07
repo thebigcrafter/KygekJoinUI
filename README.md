@@ -46,5 +46,5 @@ If you update the plugin, a file called config-old.yml will be generated. It wil
 KygekJoinUI is owned and developed by KygekTeam.
 
 - Join our Discord server <a href="https://discord.gg/CXtqUZv">here</a> for latest updates from KygekTeam.
-- If you found bugs or want to give suggestions, please visit <a href="https://github.com/KygekTeam/KygekJoinUI/issues">here</a> or DM KygekDev#6415 via Discord.
-- We accept any contributions! If you want to contribute please make a pull request in <a href="https://github.com/KygekTeam/KygekJoinUI/pulls">here</a>.
+- If you found bugs or want to give suggestions, please visit <a href="https://github.com/KygekTeam/KygekJoinUI/issues">here</a> or join our Discord server.
+- We accept all contributions! If you want to contribute please make a pull request in <a href="https://github.com/KygekTeam/KygekJoinUI/pulls">here</a>.
