@@ -1,9 +1,9 @@
 # KygekJoinUI
 
 [![Poggit](https://poggit.pmmp.io/shield.dl.total/KygekJoinUI)](https://poggit.pmmp.io/p/KygekJoinUI)
-[![Discord](https://img.shields.io/discord/912857752383139880.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.com/invite/pdUvA8nXJC)
+[![Discord](https://img.shields.io/discord/735439472992321587.svg?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/CXtqUZv)
 
-**NOTICE:** This plugin branch is for PocketMine-MP 4. If you are looking for the PocketMine-MP 3 version of this plugin, please visit the [master](https://github.com/thebigcrafter/KygekJoinUI/tree/master) branch.
+**NOTICE:** This plugin branch is for PocketMine-MP 4. If you are looking for the PocketMine-MP 3 version of this plugin, please visit the [master](https://github.com/KygekTeam/KygekJoinUI/tree/master) branch.
 
 A plugin for PocketMine-MP that will show an UI for information and guides of the server when players joins the server.
 
@@ -43,8 +43,8 @@ If you update the plugin, a file called config-old.yml will be generated. It wil
 
 # Additional Notes
 
-KygekJoinUI is owned and developed by thebigcrafter.
+KygekJoinUI is owned and developed by KygekTeam.
 
-- Join our Discord server <a href="https://discord.com/invite/pdUvA8nXJC">here</a> for latest updates from thebigcrafter.
-- If you found bugs or want to give suggestions, please visit <a href="https://github.com/thebigcrafter/KygekJoinUI/issues">here</a> or join our Discord server.
-- We accept all contributions! If you want to contribute please make a pull request in <a href="https://github.com/thebigcrafter/KygekJoinUI/pulls">here</a>.
+- Join our Discord server <a href="https://discord.gg/CXtqUZv">here</a> for latest updates from KygekTeam.
+- If you found bugs or want to give suggestions, please visit <a href="https://github.com/KygekTeam/KygekJoinUI/issues">here</a> or join our Discord server.
+- We accept all contributions! If you want to contribute please make a pull request in <a href="https://github.com/KygekTeam/KygekJoinUI/pulls">here</a>.
