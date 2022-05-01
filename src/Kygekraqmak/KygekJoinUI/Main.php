@@ -18,7 +18,7 @@
 
 namespace Kygekraqmak\KygekJoinUI;
 
-use thebigcrafter\KtpmplCfs\KtpmplCfs;
+use KygekTeam\KtpmplCfs\KtpmplCfs;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\player\Player;
