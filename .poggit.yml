@@ -1,4 +1,4 @@
---- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/KygekTeam/KygekJoinUI
+--- # Poggit-CI Manifest. Open the CI at https://poggit.pmmp.io/ci/thebigcrafter/KygekJoinUI
 build-by-default: true
 branches:
 - master
@@ -9,6 +9,6 @@ projects:
     libs:
     - src: Vecnavium/FormsUI/FormsUI
       version: ^1.0.0
-    - src: KygekTeam/ktpmpl-cfs/ktpmpl-cfs
+    - src: thebigcrafter/ktpmpl-cfs/ktpmpl-cfs
       version: ^4.0.0
 ...

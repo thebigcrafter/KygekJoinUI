@@ -1,7 +1,7 @@
 <?php
 
 # A plugin for PocketMine-MP that will show an UI for information and guides when players joins the server.
-# Copyright (C) 2020-2022 Kygekraqmak, KygekTeam
+# Copyright (C) 2020-2022 Kygekraqmak, KygekTeam and thebigcrafter
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,7 +18,7 @@
 
 namespace Kygekraqmak\KygekJoinUI;
 
-use KygekTeam\KtpmplCfs\KtpmplCfs;
+use thebigcrafter\KtpmplCfs\KtpmplCfs;
 use pocketmine\console\ConsoleCommandSender;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\player\Player;
