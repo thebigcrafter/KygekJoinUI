@@ -30,157 +30,157 @@ use Vecnavium\FormsUI\SimpleForm;
 
 class Main extends PluginBase implements Listener {
 
-    private const IS_DEV = false;
+	private const IS_DEV = false;
 
-    public static string $mode;
+	public static string $mode;
 
-    protected function onEnable() : void {
-        $this->saveDefaultConfig();
-        $ktpmplCfs = new KtpmplCfs($this);
+	protected function onEnable() : void {
+		$this->saveDefaultConfig();
+		$ktpmplCfs = new KtpmplCfs($this);
 
-        /** @phpstan-ignore-next-line */
-        if (self::IS_DEV) {
-            $ktpmplCfs->warnDevelopmentVersion();
-        }
+		/** @phpstan-ignore-next-line */
+		if (self::IS_DEV) {
+			$ktpmplCfs->warnDevelopmentVersion();
+		}
 
-        $ktpmplCfs->checkUpdates();
-        $ktpmplCfs->checkConfig("2.1");
+		$ktpmplCfs->checkUpdates();
+		$ktpmplCfs->checkConfig("2.1");
 
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        if (mb_stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
-            self::$mode = "SimpleForm";
-            return;
-        } elseif (mb_stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
-            self::$mode = "ModalForm";
-            return;
-        }
-        $this->ConfigFix();
-    }
+		$this->getServer()->getPluginManager()->registerEvents($this, $this);
+		if (mb_stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
+			self::$mode = "SimpleForm";
+			return;
+		} elseif (mb_stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
+			self::$mode = "ModalForm";
+			return;
+		}
+		$this->ConfigFix();
+	}
 
-    public function onJoin(PlayerJoinEvent $event) {
-        $player = $event->getPlayer();
-        if (!file_exists($this->getDataFolder()."config.yml")) {
-            $player->sendMessage(TextFormat::YELLOW . "[KygekJoinUI] " . TextFormat::RED . "Config file cannot be found, please restart the server!");
-            return;
-        }
-        $this->ConfigFix();
-        if (self::$mode == "SimpleForm") {
-            if ($this->getConfig()->get("join-first-time", false)) {
-                if (!$player->hasPlayedBefore()) $this->kygekSimpleJoinUI($player);
-            } else $this->kygekSimpleJoinUI($player);
-        }
-        if (self::$mode == "ModalForm") {
-            if ($this->getConfig()->get("join-first-time", false)) {
-                if (!$player->hasPlayedBefore()) $this->kygekModalJoinUI($player);
-            } else $this->kygekModalJoinUI($player);
-        }
-    }
+	public function onJoin(PlayerJoinEvent $event) {
+		$player = $event->getPlayer();
+		if (!file_exists($this->getDataFolder()."config.yml")) {
+			$player->sendMessage(TextFormat::YELLOW . "[KygekJoinUI] " . TextFormat::RED . "Config file cannot be found, please restart the server!");
+			return;
+		}
+		$this->ConfigFix();
+		if (self::$mode == "SimpleForm") {
+			if ($this->getConfig()->get("join-first-time", false)) {
+				if (!$player->hasPlayedBefore()) $this->kygekSimpleJoinUI($player);
+			} else $this->kygekSimpleJoinUI($player);
+		}
+		if (self::$mode == "ModalForm") {
+			if ($this->getConfig()->get("join-first-time", false)) {
+				if (!$player->hasPlayedBefore()) $this->kygekModalJoinUI($player);
+			} else $this->kygekModalJoinUI($player);
+		}
+	}
 
-    private function kygekSimpleJoinUI(Player $player) {
-        $form = new SimpleForm(function (Player $player, int $data = null) {
-            if ($data === null) {
-                $this->dispatchCommandsOnClose($player);
-                return true;
-            }
-            $buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
-            if (!empty($buttons[$data]["commands"])) {
-                foreach ($buttons[$data]["commands"] as $command) {
-                    $playern = str_replace("{player}", $player->getName(), $command);
-                    $this->getServer()->dispatchCommand($this->commandMode($player), $playern);
-                }
-            }
-        });
-        $form->setTitle($this->replace($player, $this->getConfig()->get("title")));
-        $form->setContent($this->replace($player, $this->getConfig()->get("content")));
-        $buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
-        foreach ($buttons as $button) {
-            if (empty($button["image"])) {
-                $form->addButton($this->replace($player, $button["name"]));
-            } else {
-                $image = $button["image"];
-                $url = str_starts_with($image, "http://") || str_starts_with($image, "https://");
-                $form->addButton($this->replace($player, $button["name"]), $url ? 1 : 0, $image);
-            }
-        }
-        $player->sendForm($form);
-    }
+	private function kygekSimpleJoinUI(Player $player) {
+		$form = new SimpleForm(function (Player $player, int $data = null) {
+			if ($data === null) {
+				$this->dispatchCommandsOnClose($player);
+				return true;
+			}
+			$buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
+			if (!empty($buttons[$data]["commands"])) {
+				foreach ($buttons[$data]["commands"] as $command) {
+					$playern = str_replace("{player}", $player->getName(), $command);
+					$this->getServer()->dispatchCommand($this->commandMode($player), $playern);
+				}
+			}
+		});
+		$form->setTitle($this->replace($player, $this->getConfig()->get("title")));
+		$form->setContent($this->replace($player, $this->getConfig()->get("content")));
+		$buttons = $this->getConfig()->getNested("Buttons.SimpleForm");
+		foreach ($buttons as $button) {
+			if (empty($button["image"])) {
+				$form->addButton($this->replace($player, $button["name"]));
+			} else {
+				$image = $button["image"];
+				$url = str_starts_with($image, "http://") || str_starts_with($image, "https://");
+				$form->addButton($this->replace($player, $button["name"]), $url ? 1 : 0, $image);
+			}
+		}
+		$player->sendForm($form);
+	}
 
-    private function kygekModalJoinUI(Player $player) {
-        $form = new ModalForm(function (Player $player, bool $data = null) {
-            if ($data === null) {
-                $this->dispatchCommandsOnClose($player);
-                return true;
-            }
-            switch ($data) {
-                case true:
-                    $command = $this->getConfig()->getNested("Buttons.ModalForm.B1.command");
-                    if ($command !== null) {
-                        $this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
-                    }
-                    break;
-                case false:
-                    $command = $this->getConfig()->getNested("Buttons.ModalForm.B2.command");
-                    if ($command !== null) {
-                        $this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
-                    }
-                    break;
-            }
-        });
-        $form->setTitle($this->replace($player, $this->getConfig()->get("title")));
-        $form->setContent($this->replace($player, $this->getConfig()->get("content")));
-        $form->setButton1($this->replace($player, $this->getConfig()->getNested("Buttons.ModalForm.B1.name")));
-        $form->setButton2($this->replace($player, $this->getConfig()->getNested("Buttons.ModalForm.B2.name")));
-        $player->sendForm($form);
-    }
+	private function kygekModalJoinUI(Player $player) {
+		$form = new ModalForm(function (Player $player, bool $data = null) {
+			if ($data === null) {
+				$this->dispatchCommandsOnClose($player);
+				return true;
+			}
+			switch ($data) {
+				case true:
+					$command = $this->getConfig()->getNested("Buttons.ModalForm.B1.command");
+					if ($command !== null) {
+						$this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
+					}
+					break;
+				case false:
+					$command = $this->getConfig()->getNested("Buttons.ModalForm.B2.command");
+					if ($command !== null) {
+						$this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
+					}
+					break;
+			}
+		});
+		$form->setTitle($this->replace($player, $this->getConfig()->get("title")));
+		$form->setContent($this->replace($player, $this->getConfig()->get("content")));
+		$form->setButton1($this->replace($player, $this->getConfig()->getNested("Buttons.ModalForm.B1.name")));
+		$form->setButton2($this->replace($player, $this->getConfig()->getNested("Buttons.ModalForm.B2.name")));
+		$player->sendForm($form);
+	}
 
-    private function ConfigFix() {
-        $this->getConfig()->reload();
-        if (mb_stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
-            self::$mode = "SimpleForm";
-            return;
-        } elseif (mb_stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
-            self::$mode = "ModalForm";
-            return;
-        }
-        self::$mode = "SimpleForm";
-        $this->getLogger()->error(TextFormat::RED.("Incorrect mode have been set in the config.yml, changing the mode to SimpleForm..."));
-        $content = file_get_contents($this->getDataFolder()."config.yml");
-        $yml = yaml_parse($content);
-        $config = str_replace("Mode: ".$yml["Mode"] ,"Mode: SimpleForm" ,$content);
-        unlink($this->getDataFolder()."config.yml");
-        $file = fopen($this->getDataFolder()."config.yml", "w");
-        fwrite($file, $config);
-        fclose($file);
-    }
+	private function ConfigFix() {
+		$this->getConfig()->reload();
+		if (mb_stripos($this->getConfig()->get("Mode"), "simpleform") !== false) {
+			self::$mode = "SimpleForm";
+			return;
+		} elseif (mb_stripos($this->getConfig()->get("Mode"), "modalform") !== false) {
+			self::$mode = "ModalForm";
+			return;
+		}
+		self::$mode = "SimpleForm";
+		$this->getLogger()->error(TextFormat::RED.("Incorrect mode have been set in the config.yml, changing the mode to SimpleForm..."));
+		$content = file_get_contents($this->getDataFolder()."config.yml");
+		$yml = yaml_parse($content);
+		$config = str_replace("Mode: ".$yml["Mode"] ,"Mode: SimpleForm" ,$content);
+		unlink($this->getDataFolder()."config.yml");
+		$file = fopen($this->getDataFolder()."config.yml", "w");
+		fwrite($file, $config);
+		fclose($file);
+	}
 
-    private function replace(Player $player, string $text) : string {
-        $from = ["{world}", "{player}", "{online}", "{max_online}", "{line}"];
-        $to = [
-            $player->getWorld()->getDisplayName(),
-            $player->getName(),
-            count($this->getServer()->getOnlinePlayers()),
-            $this->getServer()->getMaxPlayers(),
-            "\n"
-        ];
-        return TextFormat::colorize(str_replace($from, $to, $text));
-    }
+	private function replace(Player $player, string $text) : string {
+		$from = ["{world}", "{player}", "{online}", "{max_online}", "{line}"];
+		$to = [
+			$player->getWorld()->getDisplayName(),
+			$player->getName(),
+			count($this->getServer()->getOnlinePlayers()),
+			$this->getServer()->getMaxPlayers(),
+			"\n"
+		];
+		return TextFormat::colorize(str_replace($from, $to, $text));
+	}
 
-    private function commandMode(Player $player) : Player|ConsoleCommandSender {
-        $server = $this->getServer();
-        if (mb_stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender($server, $server->getLanguage());
-        elseif (mb_stripos($this->getConfig()->get("command-mode"), "player") !== false) return $player;
-        else {
-            $this->getLogger()->error(TextFormat::RED.("Incorrect command mode have been set in the config.yml, changing the command mode to console..."));
-            $this->getConfig()->set("command-mode", "console");
-            $this->getConfig()->save();
-            return new ConsoleCommandSender($server, $server->getLanguage());
-        }
-    }
+	private function commandMode(Player $player) : Player|ConsoleCommandSender {
+		$server = $this->getServer();
+		if (mb_stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender($server, $server->getLanguage());
+		elseif (mb_stripos($this->getConfig()->get("command-mode"), "player") !== false) return $player;
+		else {
+			$this->getLogger()->error(TextFormat::RED.("Incorrect command mode have been set in the config.yml, changing the command mode to console..."));
+			$this->getConfig()->set("command-mode", "console");
+			$this->getConfig()->save();
+			return new ConsoleCommandSender($server, $server->getLanguage());
+		}
+	}
 
-    private function dispatchCommandsOnClose($player) {
-        foreach ($this->getConfig()->get("commands-on-close") as $command) {
-            $this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
-        }
-    }
+	private function dispatchCommandsOnClose($player) {
+		foreach ($this->getConfig()->get("commands-on-close") as $command) {
+			$this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
+		}
+	}
 
 }
