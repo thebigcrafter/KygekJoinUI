@@ -34,7 +34,7 @@ class Main extends PluginBase implements Listener {
 
 	public static string $mode;
 
-	protected function onEnable() : void {
+	protected function onEnable(): void {
 		$this->saveDefaultConfig();
 		$ktpmplCfs = new KtpmplCfs($this);
 
@@ -59,7 +59,7 @@ class Main extends PluginBase implements Listener {
 
 	public function onJoin(PlayerJoinEvent $event) {
 		$player = $event->getPlayer();
-		if (!file_exists($this->getDataFolder()."config.yml")) {
+		if (!file_exists($this->getDataFolder() . "config.yml")) {
 			$player->sendMessage(TextFormat::YELLOW . "[KygekJoinUI] " . TextFormat::RED . "Config file cannot be found, please restart the server!");
 			return;
 		}
@@ -143,17 +143,17 @@ class Main extends PluginBase implements Listener {
 			return;
 		}
 		self::$mode = "SimpleForm";
-		$this->getLogger()->error(TextFormat::RED.("Incorrect mode have been set in the config.yml, changing the mode to SimpleForm..."));
-		$content = file_get_contents($this->getDataFolder()."config.yml");
+		$this->getLogger()->error(TextFormat::RED . ("Incorrect mode have been set in the config.yml, changing the mode to SimpleForm..."));
+		$content = file_get_contents($this->getDataFolder() . "config.yml");
 		$yml = yaml_parse($content);
-		$config = str_replace("Mode: ".$yml["Mode"] ,"Mode: SimpleForm" ,$content);
-		unlink($this->getDataFolder()."config.yml");
-		$file = fopen($this->getDataFolder()."config.yml", "w");
+		$config = str_replace("Mode: " . $yml["Mode"], "Mode: SimpleForm", $content);
+		unlink($this->getDataFolder() . "config.yml");
+		$file = fopen($this->getDataFolder() . "config.yml", "w");
 		fwrite($file, $config);
 		fclose($file);
 	}
 
-	private function replace(Player $player, string $text) : string {
+	private function replace(Player $player, string $text): string {
 		$from = ["{world}", "{player}", "{online}", "{max_online}", "{line}"];
 		$to = [
 			$player->getWorld()->getDisplayName(),
@@ -165,12 +165,12 @@ class Main extends PluginBase implements Listener {
 		return TextFormat::colorize(str_replace($from, $to, $text));
 	}
 
-	private function commandMode(Player $player) : Player|ConsoleCommandSender {
+	private function commandMode(Player $player): Player|ConsoleCommandSender {
 		$server = $this->getServer();
 		if (mb_stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender($server, $server->getLanguage());
 		elseif (mb_stripos($this->getConfig()->get("command-mode"), "player") !== false) return $player;
 		else {
-			$this->getLogger()->error(TextFormat::RED.("Incorrect command mode have been set in the config.yml, changing the command mode to console..."));
+			$this->getLogger()->error(TextFormat::RED . ("Incorrect command mode have been set in the config.yml, changing the command mode to console..."));
 			$this->getConfig()->set("command-mode", "console");
 			$this->getConfig()->save();
 			return new ConsoleCommandSender($server, $server->getLanguage());
@@ -182,5 +182,4 @@ class Main extends PluginBase implements Listener {
 			$this->getServer()->dispatchCommand($this->commandMode($player), str_replace("{player}", $player->getName(), $command));
 		}
 	}
-
 }
