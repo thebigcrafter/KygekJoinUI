@@ -30,7 +30,7 @@ use Vecnavium\FormsUI\SimpleForm;
 
 class Main extends PluginBase implements Listener {
 
-	private const IS_DEV = false;
+	private bool $isDev = false;
 
 	public static string $mode;
 
@@ -38,8 +38,7 @@ class Main extends PluginBase implements Listener {
 		$this->saveDefaultConfig();
 		$ktpmplCfs = new KtpmplCfs($this);
 
-		/** @phpstan-ignore-next-line */
-		if (self::IS_DEV) {
+		if ($this->isDev) {
 			$ktpmplCfs->warnDevelopmentVersion();
 		}
 
