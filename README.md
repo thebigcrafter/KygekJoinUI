@@ -42,4 +42,4 @@ If you update the plugin, a file called config-old.yml will be generated. It wil
 
 # ⚖️ License
 
-Licensed under the [GNU General Public License v3.0](https://github.com/thebigcrafter/KygekJoinUI/blob/pm4/LICENSE) license.
+Licensed under the [GNU General Public License v3.0](https://github.com/thebigcrafter/KygekJoinUI#GPL-3.0-1) license.
