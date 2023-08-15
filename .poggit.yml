@@ -8,6 +8,6 @@ projects:
     libs:
     - src: Vecnavium/FormsUI/FormsUI
       version: ^1.0.0
-      - src: thebigcrafter/Hydrogen/Hydrogen
-        version: ^1.0.0
+    - src: thebigcrafter/Hydrogen/Hydrogen
+      version: ^1.0.0
 ...
