@@ -1,49 +1,58 @@
 <?php
 
-# A plugin for PocketMine-MP that will show an UI for information and guides when players joins the server.
-# Copyright (C) 2020-2022 Kygekraqmak, KygekTeam
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+/*
+ * A plugin for PocketMine-MP that will show an UI for information and guides when players joins the server.
+ * Copyright (C) 2020-2023 Kygekraqmak, KygekTeam
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+declare(strict_types=1);
 
 namespace Kygekraqmak\KygekJoinUI;
 
-use KygekTeam\KtpmplCfs\KtpmplCfs;
 use pocketmine\console\ConsoleCommandSender;
+use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\player\Player;
 use pocketmine\plugin\PluginBase;
-use pocketmine\event\Listener;
 use pocketmine\utils\TextFormat;
+use thebigcrafter\Hydrogen\HConfig;
+use thebigcrafter\Hydrogen\Hydrogen;
 use Vecnavium\FormsUI\ModalForm;
 use Vecnavium\FormsUI\SimpleForm;
+use function count;
+use function fclose;
+use function file_exists;
+use function file_get_contents;
+use function fopen;
+use function fwrite;
+use function mb_stripos;
+use function str_replace;
+use function str_starts_with;
+use function unlink;
+use function yaml_parse;
 
 class Main extends PluginBase implements Listener {
 
-	private bool $isDev = false;
-
 	public static string $mode;
 
-	protected function onEnable(): void {
+	protected function onEnable() : void {
 		$this->saveDefaultConfig();
-		$ktpmplCfs = new KtpmplCfs($this);
 
-		if ($this->isDev) {
-			$ktpmplCfs->warnDevelopmentVersion();
-		}
-
-		$ktpmplCfs->checkUpdates();
-		$ktpmplCfs->checkConfig("2.1");
+		Hydrogen::checkForUpdates($this);
+		HConfig::verifyConfigVersion($this->getConfig(), "2.1");
 
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		if (mb_stripos($this->getConfig()->get("Mode"), "simpleform") == true) {
@@ -152,7 +161,7 @@ class Main extends PluginBase implements Listener {
 		fclose($file);
 	}
 
-	private function replace(Player $player, string $text): string {
+	private function replace(Player $player, string $text) : string {
 		$from = ["{world}", "{player}", "{online}", "{max_online}", "{line}"];
 		$to = [
 			$player->getWorld()->getDisplayName(),
@@ -164,7 +173,7 @@ class Main extends PluginBase implements Listener {
 		return TextFormat::colorize(str_replace($from, $to, $text));
 	}
 
-	private function commandMode(Player $player): Player|ConsoleCommandSender {
+	private function commandMode(Player $player) : Player|ConsoleCommandSender {
 		$server = $this->getServer();
 		if (mb_stripos($this->getConfig()->get("command-mode"), "console") !== false) return new ConsoleCommandSender($server, $server->getLanguage());
 		elseif (mb_stripos($this->getConfig()->get("command-mode"), "player") !== false) return $player;
