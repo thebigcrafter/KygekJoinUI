@@ -59,15 +59,8 @@ Buttons:
       command: say Button2!
 
 
-# Whether to check for plugin updates (Recommended)
-check-updates: true
-
-# Whether to warn if plugin is running on a development version (Recommended)
-warn-development: true
-
-
 ##### DANGER ZONE #####
 # Do not change this (Only for internal use)!
-config-version: "2.1"
+config-version: "2.2"
 #######################
 ...

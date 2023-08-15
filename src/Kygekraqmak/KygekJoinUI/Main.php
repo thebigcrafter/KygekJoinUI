@@ -52,7 +52,7 @@ class Main extends PluginBase implements Listener {
 		$this->saveDefaultConfig();
 
 		Hydrogen::checkForUpdates($this);
-		HConfig::verifyConfigVersion($this->getConfig(), "2.1");
+		HConfig::verifyConfigVersion($this->getConfig(), "2.2");
 
 		$this->getServer()->getPluginManager()->registerEvents($this, $this);
 		if (mb_stripos($this->getConfig()->get("Mode"), "simpleform") == true) {
