@@ -2,7 +2,7 @@
 
 <p align="center">
 <a href="https://poggit.pmmp.io/p/KygekJoinUI"><img src="https://poggit.pmmp.io/shield.dl.total/KygekJoinUI?style=for-the-badge" alt="poggit" /></a>
-<a href="https://github.com/thebigcrafter/KygekJoinUI#GPL-3.0-1"><img src="https://img.shields.io/github/license/thebigcrafter/KygekTagsShop?style=for-the-badge" alt="license" /></a>
+<a href="https://github.com/thebigcrafter/KygekJoinUI#GPL-3.0-1"><img src="https://img.shields.io/github/license/thebigcrafter/KygekJoinUI?style=for-the-badge" alt="license" /></a>
 <a href="https://discord.gg/PykBfE2TZ9"><img src="https://img.shields.io/discord/1087729577004122112?color=7289DA&label=discord&logo=discord&style=for-the-badge" alt="discord" /></a>
 </p>
 
@@ -35,6 +35,14 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 2. Put the .phar in the plugins folder
 3. Start or restart your server
 4. Edit the plugin in plugin_data/KygekJoinUI/config.yml
+
+# 🛠️ Development
+
+Install the locked Composer dependencies and use DevTools to package and validate the plugin PHAR. The packaging workflow resolves the pinned FormsUI and Hydrogen virions from `.poggit.yml`; it does not require copying a tool version into user-facing documentation.
+
+```sh
+composer install
+```
 
 # ⚠️ Notice
 
