@@ -1,14 +1,14 @@
 <h1 align="center">KygekJoinUI</h1>
 
 <p align="center">
-<a href="https://poggit.pmmp.io/p/KygekJoinUI"><img src="https://poggit.pmmp.io/shield.dl.total/KygekJoinUI?style=for-the-badge" alt="poggit" /></a>
-<a href="https://github.com/thebigcrafter/KygekJoinUI#GPL-3.0-1"><img src="https://img.shields.io/github/license/thebigcrafter/KygekJoinUI?style=for-the-badge" alt="license" /></a>
+<a href="https://github.com/thebigcrafter/KygekJoinUI/releases"><img src="https://img.shields.io/github/downloads/thebigcrafter/KygekJoinUI/total?style=for-the-badge" alt="GitHub downloads" /></a>
+<a href="https://github.com/thebigcrafter/KygekJoinUI/blob/main/LICENSE"><img src="https://img.shields.io/github/license/thebigcrafter/KygekJoinUI?style=for-the-badge" alt="license" /></a>
 <a href="https://discord.gg/PykBfE2TZ9"><img src="https://img.shields.io/discord/1087729577004122112?color=7289DA&label=discord&logo=discord&style=for-the-badge" alt="discord" /></a>
 </p>
 
 # 📖 About
 
-A plugin for PocketMine-MP that will show an UI for information and guides of the server when players joins the server.
+A plugin for Axolotl-PM (PocketMine-MP API 5) that shows an information and guide UI when players join the server.
 
 # 🧩 Features
 
@@ -31,14 +31,14 @@ A plugin for PocketMine-MP that will show an UI for information and guides of th
 
 # ⬇️ Installation
 
-1. Download the plugin (.phar)
-2. Put the .phar in the plugins folder
-3. Start or restart your server
-4. Edit the plugin in plugin_data/KygekJoinUI/config.yml
+1. Download the latest plugin PHAR from [GitHub Releases](https://github.com/thebigcrafter/KygekJoinUI/releases).
+2. Put `KygekJoinUI.phar` in the plugins folder.
+3. Start or restart Axolotl-PM.
+4. Edit the plugin in `plugin_data/KygekJoinUI/config.yml`.
 
 # 🛠️ Development
 
-Install the locked Composer dependencies and use DevTools to package and validate the plugin PHAR. The packaging workflow resolves the pinned FormsUI and Hydrogen virions from `.poggit.yml`; it does not require copying a tool version into user-facing documentation.
+Install the locked Composer dependencies and use [DevTools](https://github.com/NhanAZ/DevTools) to package and validate the plugin PHAR. The packaging process resolves the pinned FormsUI and Hydrogen virions from `.poggit.yml`; the build tool revision belongs to the verified build environment rather than this user-facing documentation.
 
 ```sh
 composer install
@@ -50,4 +50,4 @@ If you update the plugin, a file called config-old.yml will be generated. It wil
 
 # ⚖️ License
 
-Licensed under the [GNU General Public License v3.0](https://github.com/thebigcrafter/KygekJoinUI#GPL-3.0-1) license.
+Licensed under the [GNU General Public License v3.0](https://github.com/thebigcrafter/KygekJoinUI/blob/main/LICENSE) license.
