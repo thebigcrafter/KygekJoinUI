@@ -17,7 +17,7 @@
 name: KygekJoinUI
 main: Kygekraqmak\KygekJoinUI\Main
 api: 5.0.0
-version: 2.2.3
+version: 2.2.4
 authors: [Kygekraqmak, KygekTeam, thebigcrafter]
 description: Shows an information and guide UI when players join the server
 website: https://github.com/thebigcrafter/KygekJoinUI
