@@ -13,9 +13,9 @@ A plugin for Axolotl-PM (PocketMine-MP API 5) that shows an information and guid
 # 🧩 Features
 
 * Simple Form and Modal Form mode
-* Easy to setup (plugin can be edited in config.yml)
-* Config.yml updated automatically when a newer version is detected
-* Config_old.yml will be created before the config.yml gets updated
+* Easy to set up (the plugin can be configured in `config.yml`)
+* `config.yml` is updated automatically when a newer version is detected
+* `config_old.yml` is created before `config.yml` is updated
 * § can be used as formatting codes
 * {line} can be used to break texts to a new line
 * {player} can be used to display the player's name
@@ -46,7 +46,7 @@ composer install
 
 # ⚠️ Notice
 
-If you update the plugin, a file called config-old.yml will be generated. It will contain previously config.yml datas. You can restore the old data from there.  
+If you update the plugin, a file called `config_old.yml` will be generated. It contains the previous `config.yml` data, which you can restore if needed.
 
 # ⚖️ License
 

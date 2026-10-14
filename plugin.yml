@@ -1,4 +1,4 @@
-# A plugin for PocketMine-MP that will show an UI for information and guides when players joins the server.
+# A plugin for PocketMine-MP that shows an information and guide UI when players join the server.
 # Copyright (C) 2020-2023 Kygekraqmak, KygekTeam
 #
 # This program is free software: you can redistribute it and/or modify
@@ -19,5 +19,5 @@ main: Kygekraqmak\KygekJoinUI\Main
 api: 5.0.0
 version: 2.2.3
 authors: [Kygekraqmak, KygekTeam, thebigcrafter]
-description: Shows an UI for information and guides of the server when players joins the server
+description: Shows an information and guide UI when players join the server
 website: https://github.com/thebigcrafter/KygekJoinUI
