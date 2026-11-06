@@ -38,7 +38,7 @@ A plugin for Axolotl-PM (PocketMine-MP API 5) that shows an information and guid
 
 # 🛠️ Development
 
-Install the locked Composer dependencies and use [DevTools](https://github.com/NhanAZ/DevTools) to package and validate the plugin PHAR. The packaging process resolves the pinned FormsUI and Hydrogen virions from `.poggit.yml`; the build tool revision belongs to the verified build environment rather than this user-facing documentation.
+Install the locked Composer dependencies and use [DevTools](https://github.com/AxolotlBucketLabs/DevTools) to package and validate the plugin PHAR. The packaging process resolves the pinned FormsUI and Hydrogen virions from `.poggit.yml`; the build tool revision belongs to the verified build environment rather than this user-facing documentation.
 
 ```sh
 composer install
